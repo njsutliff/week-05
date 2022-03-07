@@ -20,7 +20,7 @@ public class ReservationRepository {
     }
 
     private String getFilePath(LocalDate date) {
-        return Paths.get(directory, Id + ".csv").toString();
+        return Paths.get(directory + ".csv").toString();
     }
 
     public ArrayList<Reservation> find() {
