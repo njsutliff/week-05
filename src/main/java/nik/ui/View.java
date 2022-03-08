@@ -71,13 +71,18 @@ public class View {
         }
     }
 
-    public void printReservations(ArrayList<Reservation> r) {
-        if(r.size()==0){ displayHeader("Reading not yet working");}
-            else{
-                for(int i = 0; i < r.size(); i++){
-                    r.stream().forEach(System.out::println);
-                }
-            }
+    public void printReservations(List<Reservation> r) {
+
+       for(Reservation reservation : r) {
+           io.printf("%s %s - %s:%s - Value: $%.2f%n",
+                   reservation.getId(),
+                   reservation.getStartDate().toString(),
+                   reservation.getEndDate().toString(),
+                   reservation.getGuestId(),
+                   reservation.getTotal().doubleValue()
+           );
+
+       }
     }
 /**
     public void displayReservations(List<Forage> forages) {

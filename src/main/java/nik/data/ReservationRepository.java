@@ -2,8 +2,8 @@ package nik.data;
 
 import nik.models.Reservation;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ReservationRepository {
-    public ArrayList<Reservation> findByHostId(String iD);
+    List<Reservation> findByHostId(String iD);
     }

@@ -3,6 +3,7 @@ import nik.models.Reservation;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +14,7 @@ class ReservationFileRepositoryTest {
     void findByHostIdReturnsNotNull() {
         ReservationFileRepository repository = new ReservationFileRepository("./data/test");
 
-        ArrayList<Reservation> r = repository.findByHostId("2e72f86c-b8fe-4265-b4f1-304dea8762db");
+        List<Reservation> r = repository.findByHostId("2e72f86c-b8fe-4265-b4f1-304dea8762db");
 
         assertNotNull(r);
 
@@ -23,7 +24,7 @@ class ReservationFileRepositoryTest {
     void findByHostId() {
         ReservationFileRepository repository = new ReservationFileRepository("./data/test");
 
-        ArrayList<Reservation> r = repository.findByHostId("2e72f86c-b8fe-4265-b4f1-304dea8762db");
+        List<Reservation> r = repository.findByHostId("2e72f86c-b8fe-4265-b4f1-304dea8762db");
 
         assertFalse(r.size() == 0);
     }

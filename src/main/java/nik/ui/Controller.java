@@ -2,23 +2,20 @@ package nik.ui;
 
 import nik.data.DataException;
 import nik.data.ReservationFileRepository;
+import nik.domain.ReservationService;
 import nik.models.Reservation;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class Controller {
 
         private final View view;
-    ReservationFileRepository repository = new ReservationFileRepository("./data/test");
-
-        public Controller(View view, ReservationFileRepository repository) {
-            /**
-            this.foragerService = foragerService;
-            this.forageService = forageService;
-            this.itemService = itemService;
-             **/
+    private final ReservationService reservationService;
+        public Controller(View view, ReservationService reservationService) {
+            this.reservationService = reservationService;
             this.view = view;
         }
 
@@ -57,7 +54,9 @@ public class Controller {
 
     private void viewReservations() {
             view.displayHeader("view Reservations by Host");
-        ArrayList<Reservation> r =   repository.findByHostId("2e72f86c-b8fe-4265-b4f1-304dea8762db");
+
+            String iD = "2e72f86c-b8fe-4265-b4f1-304dea8762db"; //TEMPORARY
+         List<Reservation> r = reservationService.findByHostId(iD);
 
           view.printReservations(r);
     }

@@ -1,5 +1,6 @@
 package nik.data;
 
+import com.google.common.collect.ImmutableList;
 import nik.models.Host;
 import nik.models.Reservation;
 
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ReservationFileRepository implements  ReservationRepository{
@@ -21,10 +23,10 @@ public class ReservationFileRepository implements  ReservationRepository{
     }
 
     private String getFilePath(String id) {
-        return Paths.get(directory + id + ".csv").toString();
+        return Paths.get(directory,  id + ".csv").toString();
     }
 
-    public ArrayList<Reservation> findByHostId(String iD) {
+    public List<Reservation> findByHostId(String iD) {
 
         ArrayList<Reservation> reservations = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath(iD)))) {
@@ -53,7 +55,7 @@ public class ReservationFileRepository implements  ReservationRepository{
         result.setEndDate(LocalDate.parse(fields[2]));
         result.setGuestId(Integer.parseInt(fields[3]));
         result.setTotal(BigDecimal.valueOf(Long.parseLong(fields[4])));
-    return result;
+        return  result;
     }
 }
 
