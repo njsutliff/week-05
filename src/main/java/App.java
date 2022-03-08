@@ -1,10 +1,11 @@
-import nik.data.ReservationRepository;
+import nik.data.ReservationFileRepository;
+import nik.models.Reservation;
 import nik.ui.ConsoleIO;
 import nik.ui.Controller;
 import nik.ui.View;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+
+import java.util.ArrayList;
 
 @ComponentScan
 public class App {
@@ -13,8 +14,10 @@ public class App {
 
     ConsoleIO io = new ConsoleIO();
     View view = new View(io);
-    Controller controller = new Controller(view);
-        ReservationRepository repository = new ReservationRepository("./data/reservations");
+    ReservationFileRepository repository = new ReservationFileRepository("./data/test");
+
+        Controller controller = new Controller(view, repository);
+
     //ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
    // Controller controller = context.getBean(Controller.class);
 

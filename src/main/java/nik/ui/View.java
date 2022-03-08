@@ -1,13 +1,14 @@
 package nik.ui;
 
-import org.springframework.stereotype.Component;
+import nik.models.Reservation;
+import nik.data.ReservationFileRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
 public class View {
 
     private final ConsoleIO io;
@@ -28,9 +29,10 @@ public class View {
             max = Math.max(max, option.getValue());
         }
 
-        String message = String.format("Select [%s-%s]: ", min, max - 1);
+        String message = String.format("Select [%s-%s]: ", min, max);
         return MainMenuOption.fromValue(io.readInt(message, min, max));
     }
+
 /**
     public Forage makeForage(Forager forager, Item item) {
         Forage forage = new Forage();
@@ -67,6 +69,15 @@ public class View {
         for (String message : messages) {
             io.println(message);
         }
+    }
+
+    public void printReservations(ArrayList<Reservation> r) {
+        if(r.size()==0){ displayHeader("Reading not yet working");}
+            else{
+                for(int i = 0; i < r.size(); i++){
+                    r.stream().forEach(System.out::println);
+                }
+            }
     }
 /**
     public void displayReservations(List<Forage> forages) {
