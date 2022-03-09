@@ -12,10 +12,18 @@
   - No functionality other than displays
 - [x] Main Menu Options
 - [x] exit
-
 ## Service
-
+- [x] ReservationService
+- [ ] HostService
+- [ ] GuestService
 ## Models
-
+- [x] Reservation
+- [ ] Host
+-  [ ] Guest
 ## Data
-  
+- [x] ReservationRepostiory
+- [ ] HostRepository
+- [ ] GuestRepository
+## Testing
+- [ ] for all
+## Spring DI

@@ -5,12 +5,13 @@ import java.time.LocalDate;
 
 public class Reservation {
 
-    public  String id;
+    public String id;
     public LocalDate startDate;
     public LocalDate endDate;
     public int guestId;
     public BigDecimal total;
     public Host host;
+
 
     public String getId() {
         return id;

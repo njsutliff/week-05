@@ -1,5 +1,7 @@
 package nik.data;
 
+import com.google.common.collect.ImmutableMap;
+import nik.models.Host;
 import nik.models.Reservation;
 
 import java.math.BigDecimal;
@@ -24,5 +26,15 @@ public class ReservationFileRepositoryDouble implements  ReservationRepository{
     public List<Reservation> findByHostId(String iD) {
         return  list.stream().filter(reservation -> reservation.id.equals(iD))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ImmutableMap<Reservation, Host> associateReservationWithHost() {
+        return null;
+    }
+
+    @Override
+    public Host getHostFromList(List<Reservation> reservationList, Host host) {
+        return null;
     }
 }

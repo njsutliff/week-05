@@ -2,10 +2,12 @@ package nik.ui;
 
 import nik.data.DataException;
 import nik.data.ReservationFileRepository;
+import nik.domain.HostService;
 import nik.domain.ReservationService;
 import nik.models.Reservation;
 import org.springframework.stereotype.Component;
 
+import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +16,11 @@ public class Controller {
 
         private final View view;
     private final ReservationService reservationService;
-        public Controller(View view, ReservationService reservationService) {
+    private final HostService hostService;
+
+    public Controller(View view, ReservationService reservationService, HostService hostService) {
             this.reservationService = reservationService;
+            this.hostService = hostService;
             this.view = view;
         }
 
@@ -52,13 +57,16 @@ public class Controller {
             } while (option != MainMenuOption.EXIT);
         }
 
-    private void viewReservations() {
+    private void viewReservations() {// PROMPT FOR EMAIL
+            //TODO host three layer
+        //TODO host has <Host> findByEmail
+
             view.displayHeader("view Reservations by Host");
+        String email =  view.getEmail();
+        String id = hostService.getIdFromEmail(email);
 
-            String iD = "2e72f86c-b8fe-4265-b4f1-304dea8762db"; //TEMPORARY
-         List<Reservation> r = reservationService.findByHostId(iD);
-
-          view.printReservations(r);
+        List<Reservation> result =  reservationService.findByHostId(id);
+          view.printReservations(result);
     }
 
     private void makeReservation() {

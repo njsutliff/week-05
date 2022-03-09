@@ -71,18 +71,33 @@ public class View {
         }
     }
 
+    /**
+     * Get a host email
+     * @param
+     */
+    public String getEmail(){
+        return io.readString("Enter a email");
+    }
+
+
+
+
+
     public void printReservations(List<Reservation> r) {
+        if (r.get(0) == null) {
+            System.out.println("Is empty!");
+        } else {
+            for (Reservation reservation : r) {
+                io.printf("%s %s - %s:%s - Value: $%.2f%n",
+                        reservation.getId(),
+                        reservation.getStartDate(),
+                        reservation.getEndDate(),
+                        reservation.getGuestId(),
+                        reservation.getTotal()
+                );
 
-       for(Reservation reservation : r) {
-           io.printf("%s %s - %s:%s - Value: $%.2f%n",
-                   reservation.getId(),
-                   reservation.getStartDate().toString(),
-                   reservation.getEndDate().toString(),
-                   reservation.getGuestId(),
-                   reservation.getTotal().doubleValue()
-           );
-
-       }
+            }
+        }
     }
 /**
     public void displayReservations(List<Forage> forages) {

@@ -1,4 +1,6 @@
+import nik.data.HostFileRepository;
 import nik.data.ReservationFileRepository;
+import nik.domain.HostService;
 import nik.domain.ReservationService;
 import nik.models.Reservation;
 import nik.ui.ConsoleIO;
@@ -17,7 +19,10 @@ public class App {
     View view = new View(io);
     ReservationFileRepository repository = new ReservationFileRepository("./data/reservations");
         ReservationService reservationService = new ReservationService(repository);
-        Controller controller = new Controller(view, reservationService);
+        HostFileRepository hostRepository = new HostFileRepository("./data/hosts.csv");
+        HostService hostService = new HostService(hostRepository);
+
+        Controller controller = new Controller(view, reservationService, hostService);
 
     //ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
    // Controller controller = context.getBean(Controller.class);
