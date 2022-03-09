@@ -14,59 +14,58 @@ import java.util.List;
 @Component
 public class Controller {
 
-        private final View view;
+    private final View view;
     private final ReservationService reservationService;
     private final HostService hostService;
 
     public Controller(View view, ReservationService reservationService, HostService hostService) {
-            this.reservationService = reservationService;
-            this.hostService = hostService;
-            this.view = view;
-        }
+        this.reservationService = reservationService;
+        this.hostService = hostService;
+        this.view = view;
+    }
 
-        public void run()  {
-            view.displayHeader("Welcome to Sustainable Foraging");
-            try {
-                runAppLoop();
+    public void run() {
+        view.displayHeader("Welcome to Sustainable Foraging");
+        try {
+            runAppLoop();
+        } catch (DataException ex) {
+            view.displayException(ex);
+        }
+        view.displayHeader("Goodbye.");
+    }
+
+    private void runAppLoop() throws DataException {
+        MainMenuOption option;
+        do {
+            option = view.selectMainMenuOption();
+            switch (option) {
+                case VIEW_RESERVATIONS:
+                    viewReservations();
+                    break;
+                case MAKE_RESERVATION:
+                    makeReservation();
+                    break;
+                case EDIT_RESERVATION:
+                    editReservation();
+                    break;
+                case CANCEL_RESERVATION:
+                    cancelReservation();
+                    break;
+
             }
-            catch (DataException ex) {
-                view.displayException(ex);
-            }
-            view.displayHeader("Goodbye.");
-        }
-
-        private void runAppLoop() throws DataException {
-            MainMenuOption option;
-            do {
-                option = view.selectMainMenuOption();
-                switch (option) {
-                    case VIEW_RESERVATIONS:
-                        viewReservations();
-                        break;
-                    case MAKE_RESERVATION:
-                        makeReservation();
-                        break;
-                    case EDIT_RESERVATION:
-                        editReservation();
-                        break;
-                    case CANCEL_RESERVATION:
-                        cancelReservation();
-                        break;
-
-                }
-            } while (option != MainMenuOption.EXIT);
-        }
+        } while (option != MainMenuOption.EXIT);
+    }
 
     private void viewReservations() {// PROMPT FOR EMAIL
-            //TODO host three layer
-        //TODO host has <Host> findByEmail
+        //TODO host three layer
 
-            view.displayHeader("view Reservations by Host");
-        String email =  view.getEmail();
+        view.displayHeader("view Reservations by Host");
+        view.displayHeader("[Host Search]");
+        String email = view.getEmail();
         String id = hostService.getIdFromEmail(email);
 
-        List<Reservation> result =  reservationService.findByHostId(id);
-          view.printReservations(result);
+        List<Reservation> result = reservationService.findByHostId(id);
+        view.printReservations(result);
     }
 
     private void makeReservation() {
@@ -75,10 +74,10 @@ public class Controller {
     }
 
     private void editReservation() {
-            view.displayHeader("edit a Reservation");
+        view.displayHeader("edit a Reservation");
     }
 
     private void cancelReservation() {
-            view.displayHeader("Cancel a Reservation");
+        view.displayHeader("Cancel a Reservation");
     }
 }

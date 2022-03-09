@@ -1,5 +1,6 @@
 package nik.ui;
 
+import nik.models.Host;
 import nik.models.Reservation;
 import nik.data.ReservationFileRepository;
 
@@ -76,7 +77,8 @@ public class View {
      * @param
      */
     public String getEmail(){
-        return io.readString("Enter a email");
+
+        return io.readString("Enter a host email to view their reservations: ");
     }
 
 
@@ -84,9 +86,14 @@ public class View {
 
 
     public void printReservations(List<Reservation> r) {
-        if (r.get(0) == null) {
-            System.out.println("Is empty!");
-        } else {
+        if (r.size() == 0) {
+            System.out.println("Host has no reservations!");
+        }
+
+        else {
+            io.printf("%s-host email: %s host phone: ",
+                    r.get(0).getHost().getEmail(),
+                    r.get(0).getHost().getPhone());
             for (Reservation reservation : r) {
                 io.printf("%s %s - %s:%s - Value: $%.2f%n",
                         reservation.getId(),
@@ -99,6 +106,7 @@ public class View {
             }
         }
     }
+
 /**
     public void displayReservations(List<Forage> forages) {
         if (forages == null || forages.isEmpty()) {
