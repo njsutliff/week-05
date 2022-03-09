@@ -24,4 +24,14 @@ public class HostFileRepositoryDouble implements HostRepository{
     public List<Host> getAllHosts() {
         return null;
     }
+
+    @Override
+    public Host getHostFromEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public Host getHostFromLastName(String lastName) {
+        return null;
+    }
 }

@@ -3,9 +3,9 @@ package nik.ui;
 public enum MainMenuOption {
 
     VIEW_RESERVATIONS(1, "View Reservations for Host", false),
-    MAKE_RESERVATION(2,"View Foragers By State",false),
-    EDIT_RESERVATION(3, "View Items", false),
-    CANCEL_RESERVATION(4, "Add a Forage", false),
+    MAKE_RESERVATION(2,"Make a Reservation",false),
+    EDIT_RESERVATION(3, "Edit a Reservation", false),
+    CANCEL_RESERVATION(4, "Cancel a Reservation", false),
     EXIT(5, "Exit", false);
 
 

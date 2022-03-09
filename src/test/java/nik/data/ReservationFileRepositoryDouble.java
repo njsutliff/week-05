@@ -29,7 +29,7 @@ public class ReservationFileRepositoryDouble implements  ReservationRepository{
     }
 
     @Override
-    public ImmutableMap<Reservation, Host> associateReservationWithHost() {
+    public List<Reservation> getFutureReservations(Host h) {
         return null;
     }
 

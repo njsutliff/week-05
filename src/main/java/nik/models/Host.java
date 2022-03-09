@@ -1,6 +1,7 @@
 package nik.models;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 //id,last_name,email,phone,address,city,state,postal_code,standard_rate,weekend_rate
 public class Host {
@@ -106,4 +107,21 @@ public class Host {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Host host = (Host) o;
+        return iD.equals(host.iD) && lastName.equals(host.lastName) && email.equals(host.email)
+                && phone.equals(host.phone) && address.equals(host.address)
+                && city.equals(host.city) && state.equals(host.state)
+                && postalCode.equals(host.postalCode) && standardRate.equals(host.standardRate)
+                && weekendRate.equals(host.weekendRate) && Objects.equals(reservation, host.reservation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(iD, lastName, email, phone, address, city,
+                state, postalCode, standardRate, weekendRate, reservation);
+    }
 }

@@ -24,14 +24,20 @@ class HostFileRepositoryTest {
     }
 
     @Test
-    void findByEmail() {
+    void testFindByEmail() {
         String email = "eyearnes0@sfgate.com";
         String iD = repository.getIdFromEmail(email);
         assertEquals("3edda6bc-ab95-49a8-8962-d50b53f84b15", iD);
     }
-
     @Test
-    void getAllHosts() {
+    void testGetHostFromEmail(){
+        String email = "eyearnes0@sfgate.com";
+        Host h = repository.getHostFromEmail(email);
+        assertTrue(repository.getAllHosts().contains(h));
+
+    }
+    @Test
+    void testGetAllHosts() {
         List<Host> h = repository.getAllHosts();
         assertTrue(h.size()==1000);
         System.out.println(h.size());

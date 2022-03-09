@@ -15,4 +15,7 @@ public class ReservationService {
     public List<Reservation> findByHostId(String Id){
         return reservationRepository.findByHostId(Id);
      }
+     public List<Reservation> getFutureReservations(Host h){
+        return  reservationRepository.getFutureReservations(h);
+     }
 }

@@ -9,4 +9,6 @@ public interface HostRepository {
     String getIdFromEmail (String email);
     public Reservation findReservationByEmail(String email);
     List<Host> getAllHosts();
+    Host getHostFromEmail(String email);
+    Host getHostFromLastName(String lastName);
 }

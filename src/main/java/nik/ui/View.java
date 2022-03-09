@@ -1,5 +1,6 @@
 package nik.ui;
 
+import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
 import nik.data.ReservationFileRepository;
@@ -7,6 +8,8 @@ import nik.data.ReservationFileRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,18 +36,6 @@ public class View {
         String message = String.format("Select [%s-%s]: ", min, max);
         return MainMenuOption.fromValue(io.readInt(message, min, max));
     }
-
-/**
-    public Forage makeForage(Forager forager, Item item) {
-        Forage forage = new Forage();
-        forage.setForager(forager);
-        forage.setItem(item);
-        forage.setDate(io.readLocalDate("Forage date [MM/dd/yyyy]: "));
-        String message = String.format("Kilograms of %s: ", item.getName());
-        forage.setKilograms(io.readDouble(message, 0.001, 250.0));
-        return forage;
-    }**/
-
     public void enterToContinue() {
         io.readString("Press [Enter] to continue.");
     }
@@ -77,7 +68,6 @@ public class View {
      * @param
      */
     public String getEmail(){
-
         return io.readString("Enter a host email to view their reservations: ");
     }
 
@@ -91,9 +81,8 @@ public class View {
         }
 
         else {
+            //r.sort(Comparator.comparing(reservation -> reservation.getEndDate()));
             io.printf("Host:  %s Email: %s %n", h.getLastName(), h.getEmail());
-
-            //io.println("Host " + h.getLastName() + "Email: " + h.getEmail());
             io.printf("%s %s %n",h.getCity(), h.getState());
 
             for (Reservation reservation : r) {
@@ -109,6 +98,28 @@ public class View {
         }
     }
 
+    public String getLastName() {
+       return io.readRequiredString("Enter a last name:");
+    }
+
+    public void printFutureReservations(Host h, List<Reservation> result) {
+
+    }
+
+    /**
+     * Given a host and a guest, return a valid Reservation
+     * @param h host
+     * @param guestToFind guest to add reservation for
+     * @return Reservation to pass to Controller -> service -> ReservationRepository.add
+     */
+    public Reservation createReservation(Host h, Guest guestToFind) {
+
+    }
+/**
+    public Reservation makeReservation(Guest guestToFind) {
+        io.readRequiredString("Enter");
+    }
+**/
 /**
     public void displayReservations(List<Forage> forages) {
         if (forages == null || forages.isEmpty()) {

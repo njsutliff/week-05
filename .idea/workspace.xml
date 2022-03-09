@@ -6,10 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="ed879fd6-23e5-4bf6-a89d-4faeee59145d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/GuestFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/GuestFileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/GuestRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/GuestRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/HostFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/HostFileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nik/domain/HostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/domain/HostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/HostRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/HostRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/ReservationFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/ReservationFileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/ReservationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/ReservationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/domain/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/domain/ReservationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/models/Guest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/models/Guest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/models/Host.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/models/Host.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/ui/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/ui/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/ui/MainMenuOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/ui/MainMenuOption.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/ui/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/ui/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/nik/data/HostFileRepositoryDouble.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/nik/data/HostFileRepositoryDouble.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/nik/data/HostFileRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/nik/data/HostFileRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/nik/data/ReservationFileRepositoryDouble.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/nik/data/ReservationFileRepositoryDouble.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +156,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReservationFileRepositoryTest.findByHostId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="HostFileRepositoryTest.testGetHostFromEmail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="week-05" />
       <extension name="coverage">
         <pattern>
@@ -153,8 +165,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="nik.data" />
-      <option name="MAIN_CLASS_NAME" value="nik.data.ReservationFileRepositoryTest" />
-      <option name="METHOD_NAME" value="findByHostId" />
+      <option name="MAIN_CLASS_NAME" value="nik.data.HostFileRepositoryTest" />
+      <option name="METHOD_NAME" value="testGetHostFromEmail" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -163,10 +175,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.App" />
+        <item itemvalue="JUnit.HostFileRepositoryTest.testGetHostFromEmail" />
         <item itemvalue="JUnit.HostFileRepositoryTest.findReservationGivenEmail" />
         <item itemvalue="JUnit.HostFileRepositoryTest.findByEmail" />
         <item itemvalue="JUnit.HostFileRepositoryTest.getAllHosts" />
-        <item itemvalue="JUnit.ReservationFileRepositoryTest.findByHostId" />
       </list>
     </recent_temporary>
   </component>

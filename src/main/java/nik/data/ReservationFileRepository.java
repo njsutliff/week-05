@@ -72,14 +72,11 @@ public class ReservationFileRepository implements  ReservationRepository {
     }
 
     @Override
-    public ImmutableMap<Reservation, Host> associateReservationWithHost() {
-      /**  List<Reservation> all = findAll();
-        List<Host> hosts = HostRepository
-        for(Reservation r : findAll()) {
-            findAll().
-        }**/
-        return null;
+    public List<Reservation> getFutureReservations(Host h) {
+        List<Reservation> all = findByHostId(h.getiD());
+       return all.stream().filter(reservation -> reservation.getStartDate().isAfter(LocalDate.now())).toList();
     }
+
 
     /**
      * @param reservationList returned from GetByID
