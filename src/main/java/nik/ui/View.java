@@ -85,17 +85,19 @@ public class View {
 
 
 
-    public void printReservations(List<Reservation> r) {
+    public void printReservations(Host h, List<Reservation> r) {
         if (r.size() == 0) {
             System.out.println("Host has no reservations!");
         }
 
         else {
-            io.printf("%s-host email: %s host phone: ",
-                    r.get(0).getHost().getEmail(),
-                    r.get(0).getHost().getPhone());
+            io.printf("Host:  %s Email: %s %n", h.getLastName(), h.getEmail());
+
+            //io.println("Host " + h.getLastName() + "Email: " + h.getEmail());
+            io.printf("%s %s %n",h.getCity(), h.getState());
+
             for (Reservation reservation : r) {
-                io.printf("%s %s - %s:%s - Value: $%.2f%n",
+                io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s - Total: $%.2f%n",
                         reservation.getId(),
                         reservation.getStartDate(),
                         reservation.getEndDate(),

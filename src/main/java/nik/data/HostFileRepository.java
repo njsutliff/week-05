@@ -44,7 +44,12 @@ public class HostFileRepository implements HostRepository {
         return result;
 
     }
-
+    public Host getHostFromEmail(String email) {
+       return getAllHosts().stream()
+                .filter(i -> i.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
+    }
     /**
      * Given a host's email, returns that host's Id. used by service->UI->View Reservations
      * @param  email

@@ -27,7 +27,10 @@ public class HostService {
             return "Email not found";
 
     }
-    public Reservation findByEmail(String email) {
+    public Host getHostFromEmail(String email) {
+        return hostRepository.getHostFromEmail(email);
+    }
+        public Reservation findByEmail(String email) {
         return hostRepository.findReservationByEmail(email);
     }
 

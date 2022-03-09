@@ -4,6 +4,7 @@ import nik.data.DataException;
 import nik.data.ReservationFileRepository;
 import nik.domain.HostService;
 import nik.domain.ReservationService;
+import nik.models.Host;
 import nik.models.Reservation;
 import org.springframework.stereotype.Component;
 
@@ -63,9 +64,9 @@ public class Controller {
         view.displayHeader("[Host Search]");
         String email = view.getEmail();
         String id = hostService.getIdFromEmail(email);
-
+        Host h = hostService.getHostFromEmail(email);
         List<Reservation> result = reservationService.findByHostId(id);
-        view.printReservations(result);
+        view.printReservations(h, result);
     }
 
     private void makeReservation() {
