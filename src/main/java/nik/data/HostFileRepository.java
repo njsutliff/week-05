@@ -84,7 +84,8 @@ public class HostFileRepository implements HostRepository {
      */
     public Reservation findReservationByEmail(String email) {
         Reservation res = new Reservation();
-        List<Reservation> reservationList = repository.findAll();
+        String iD = getIdFromEmail(email);
+        List<Reservation> reservationList = repository.findByHostId(iD);
         for (Reservation r : reservationList) {
             if (r.getId().equals(getIdFromEmail(email))) {
                 res = r;

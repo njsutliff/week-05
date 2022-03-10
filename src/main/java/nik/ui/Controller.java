@@ -93,7 +93,7 @@ public class Controller {
                     r.getGuestId(),
                     r.getTotal()
             );
-            Result<Reservation> res = reservationService.add(r);
+            Result<Reservation> res = reservationService.createReservation(h, r);
             System.out.println(res.isSuccess());
             System.out.println(res.getErrorMessages());
 

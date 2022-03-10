@@ -1,5 +1,6 @@
 package nik.data;
 
+import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
 
@@ -7,9 +8,7 @@ import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 public class ReservationFileRepository implements  ReservationRepository {
@@ -23,25 +22,6 @@ public class ReservationFileRepository implements  ReservationRepository {
 
     private String getFilePath(String id) {
         return Paths.get(directory, id + ".csv").toString();
-    }
-
-    public List<Reservation> findAll() {
-        ArrayList<Reservation> reservations = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(getFilePath(directory)))) {
-
-            reader.readLine(); // read header
-
-            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-
-                String[] fields = line.split(",", -1);
-                if (fields.length == 5) {
-                    reservations.add(deserialize(fields));
-                }
-            }
-        } catch (IOException ex) {
-            // don't throw on read
-        }
-        return reservations;
     }
 
     /**
@@ -70,35 +50,26 @@ public class ReservationFileRepository implements  ReservationRepository {
 
     @Override
     public List<Reservation> getFutureReservations(Host h) {
-        List<Reservation> all = findByHostId(h.getiD());
-       return all.stream().filter(reservation -> reservation.getStartDate().isAfter(LocalDate.now())).toList();
-    }
-
-
-    /**
-     * @param reservationList returned from GetByID
-     * @param host
-     * @return
-     */
-    @Override
-    public Host getHostFromList(List<Reservation> reservationList, Host host) {
-        for (Reservation r : reservationList) {
-            if (r.host == host) {
-            }
-            return null;
+        if (h!=null) {
+            List<Reservation> all = findByHostId(h.getiD());
+            return all.stream().filter(reservation -> reservation.getStartDate().isAfter(LocalDate.now())).toList();
+        }else {
+            return new ArrayList<>(0);
         }
-        return host;
     }
 
     @Override
-    public Reservation add(Reservation r) throws DataException {
-        List<Reservation> all = findAll();
+    public Reservation createReservation(Host h, Reservation r) throws DataException {
+
+        List<Reservation> all = findByHostId(h.getiD());
         all.add(r);
         int id = all.indexOf(r);
         r.setGuestId(id-1);
         writeAll(all, r.host.getiD());
         return r;
     }
+
+
     private void writeAll(List<Reservation> reservationList, String iD) throws DataException {
         try (PrintWriter writer = new PrintWriter(getFilePath(iD))) {
 

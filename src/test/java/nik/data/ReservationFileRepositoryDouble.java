@@ -29,16 +29,14 @@ public class ReservationFileRepositoryDouble implements  ReservationRepository{
 
     @Override
     public List<Reservation> getFutureReservations(Host h) {
+
+
         return null;
     }
 
-    @Override
-    public Host getHostFromList(List<Reservation> reservationList, Host host) {
-        return null;
-    }
 
     @Override
-    public Reservation add(Reservation r) {
+    public Reservation createReservation(Host h, Reservation r) throws DataException {
         return null;
     }
-}
+    }
