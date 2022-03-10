@@ -1,6 +1,5 @@
 package nik.data;
 
-import com.google.common.collect.ImmutableMap;
 import nik.models.Host;
 import nik.models.Reservation;
 
@@ -35,6 +34,11 @@ public class ReservationFileRepositoryDouble implements  ReservationRepository{
 
     @Override
     public Host getHostFromList(List<Reservation> reservationList, Host host) {
+        return null;
+    }
+
+    @Override
+    public Reservation add(Reservation r) {
         return null;
     }
 }

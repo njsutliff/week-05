@@ -5,12 +5,12 @@ import nik.data.ReservationFileRepository;
 import nik.domain.GuestService;
 import nik.domain.HostService;
 import nik.domain.ReservationService;
+import nik.domain.Result;
 import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
 import org.springframework.stereotype.Component;
 
-import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +73,7 @@ public class Controller {
         view.printReservations(h, result);
     }
     //Books accommodations for a guest at a host.
-    private void makeReservation() {
+    private void makeReservation() throws DataException {
         view.displayHeader("make a Reservation");
         Guest guestToFind = getGuest();
         if(guestService.findAll().contains(guestToFind)){
@@ -86,6 +86,17 @@ public class Controller {
             System.out.println("Upcoming reservations for host ");
             view.printReservations(h, reservationService.getFutureReservations(h));
             Reservation r = view.createReservation(h, guestToFind);
+            System.out.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s - Total: $%.2f%n",
+                    r.getId(),
+                    r.getStartDate(),
+                    r.getEndDate(),
+                    r.getGuestId(),
+                    r.getTotal()
+            );
+            Result<Reservation> res = reservationService.add(r);
+            System.out.println(res.isSuccess());
+            System.out.println(res.getErrorMessages());
+
         }else{
             System.out.println("Did Not Find Guest! TODO");
         }

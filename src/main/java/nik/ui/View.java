@@ -6,11 +6,15 @@ import nik.models.Reservation;
 import nik.data.ReservationFileRepository;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class View {
@@ -113,7 +117,47 @@ public class View {
      * @return Reservation to pass to Controller -> service -> ReservationRepository.add
      */
     public Reservation createReservation(Host h, Guest guestToFind) {
+        Reservation result = new Reservation();
+        result.setHost(h);
+        result.setId(String.valueOf(0));
+        LocalDate start = io.readLocalDate("Enter a start date. ");
+        result.setStartDate(start);
+        LocalDate end = io.readLocalDate("Enter a end date. ");
+        result.setEndDate(end);
+        result.setGuestId(0); // will need to update this in data layer
+        result.setTotal(calculateTotal(h, result));
+        return  result;
+    }
 
+    /**
+     * Calculates the total for the guest, given the guest's start and end date.
+     * Also keep track of weekends to apply weekend rates.
+     * @param host
+     * @return
+     */
+    private BigDecimal calculateTotal(Host host, Reservation reservation) {
+        Predicate<LocalDate> isWeekend = localDate -> localDate.getDayOfWeek()==DayOfWeek.SATURDAY ||
+                localDate.getDayOfWeek()==DayOfWeek.SUNDAY;
+        Predicate<LocalDate> isWeekday = localDate -> localDate.getDayOfWeek()==DayOfWeek.MONDAY ||
+                localDate.getDayOfWeek()==DayOfWeek.TUESDAY||
+                localDate.getDayOfWeek()==DayOfWeek.WEDNESDAY||
+                localDate.getDayOfWeek()==DayOfWeek.THURSDAY||
+                localDate.getDayOfWeek()==DayOfWeek.FRIDAY;
+        //Size of these lists is the number of days stayed
+        List<LocalDate> weekdays = reservation.startDate.datesUntil(reservation.endDate)
+                .filter(isWeekday).toList();
+        List<LocalDate> weekends = reservation.startDate.datesUntil(reservation.endDate).filter(isWeekend).toList();
+
+        return  calculateWeekday(host, weekdays).add(calculateWeekend(host,weekends));
+    }
+
+    private BigDecimal calculateWeekday(Host host, List<LocalDate> weekdays) {
+        return host.standardRate.multiply(BigDecimal.valueOf(weekdays.size()));
+    }
+
+
+    private BigDecimal calculateWeekend(Host host, List<LocalDate> weekend) {
+        return host.weekendRate.multiply(BigDecimal.valueOf(weekend.size()));
     }
 /**
     public Reservation makeReservation(Guest guestToFind) {

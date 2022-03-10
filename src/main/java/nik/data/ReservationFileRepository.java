@@ -1,12 +1,9 @@
 package nik.data;
 
-import com.google.common.collect.ImmutableMap;
 import nik.models.Host;
 import nik.models.Reservation;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -92,7 +89,39 @@ public class ReservationFileRepository implements  ReservationRepository {
         }
         return host;
     }
-        private Reservation deserialize (String[]fields){
+
+    @Override
+    public Reservation add(Reservation r) throws DataException {
+        List<Reservation> all = findAll();
+        all.add(r);
+        int id = all.indexOf(r);
+        r.setGuestId(id-1);
+        writeAll(all, r.host.getiD());
+        return r;
+    }
+    private void writeAll(List<Reservation> reservationList, String iD) throws DataException {
+        try (PrintWriter writer = new PrintWriter(getFilePath(iD))) {
+
+            writer.println(HEADER);
+
+            for (Reservation reservation : reservationList) {
+                writer.println(serialize(reservation));
+            }
+        } catch (FileNotFoundException ex) {
+            throw new DataException(ex);
+        }
+    }
+
+    private String serialize(Reservation result) {
+        //id,start_date,end_date,guest_id,total
+        return String.format("%s,%s,%s,%s%s",
+                result.getId(),
+                result.getStartDate(),
+                result.getEndDate(),
+                result.getGuestId(),
+                result.getTotal());
+    }
+    private Reservation deserialize (String[]fields){
             //id,start_date,end_date,guest_id,total
 
             Reservation result = new Reservation();
