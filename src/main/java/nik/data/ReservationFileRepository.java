@@ -14,8 +14,7 @@ import java.util.*;
 public class ReservationFileRepository implements  ReservationRepository {
     private final String directory;
     private static final String HEADER = "id,start_date,end_date,guest_id,total";
-    private  HashMap<Reservation, Host> map = new HashMap<Reservation, Host>();
-    //HostRepository hostRepository = new HostFileRepository("./data/hosts.csv");
+        //HostRepository hostRepository = new HostFileRepository("./data/hosts.csv");
     public ReservationFileRepository(String directory) {
         this.directory = directory;
     }
@@ -59,13 +58,13 @@ public class ReservationFileRepository implements  ReservationRepository {
     }
 
     @Override
-    public Reservation createReservation(Host h, Reservation r) throws DataException {
+    public Reservation createReservation(String hostId, Reservation r) throws DataException {
 
-        List<Reservation> all = findByHostId(h.getiD());
+        List<Reservation> all = findByHostId(hostId);
         all.add(r);
         int id = all.indexOf(r);
-        r.setGuestId(id-1);
-        writeAll(all, r.host.getiD());
+        r.setId(String.valueOf(id+1));
+        writeAll(all, hostId);
         return r;
     }
 
@@ -85,7 +84,7 @@ public class ReservationFileRepository implements  ReservationRepository {
 
     private String serialize(Reservation result) {
         //id,start_date,end_date,guest_id,total
-        return String.format("%s,%s,%s,%s%s",
+        return String.format("%s,%s,%s,%s,%s",
                 result.getId(),
                 result.getStartDate(),
                 result.getEndDate(),
@@ -100,7 +99,7 @@ public class ReservationFileRepository implements  ReservationRepository {
             result.setStartDate(LocalDate.parse(fields[1]));
             result.setEndDate(LocalDate.parse(fields[2]));
             result.setGuestId(Integer.parseInt(fields[3]));
-            result.setTotal(BigDecimal.valueOf(Long.parseLong(fields[4])));
+            result.setTotal(BigDecimal.valueOf(Double.parseDouble(fields[4])));
             return result;
         }
 

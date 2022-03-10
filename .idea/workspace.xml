@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ed879fd6-23e5-4bf6-a89d-4faeee59145d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/reservations/2e72f86c-b8fe-4265-b4f1-304dea8762db.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/reservations/2e72f86c-b8fe-4265-b4f1-304dea8762db.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/reservations/f4d6c5e4-d207-4ce0-93b3-f1d1b397883c.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/reservations/f4d6c5e4-d207-4ce0-93b3-f1d1b397883c.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/test/2e72f86c-b8fe-4265-b4f1-304dea8762db.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/test/host-test.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/HostFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/HostFileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reservations/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/reservations/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/test/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/test/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/ReservationFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/ReservationFileRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/ReservationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/ReservationRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/domain/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/domain/ReservationService.java" afterDir="false" />
@@ -94,24 +91,15 @@
       <recent name="nik.ui" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ReservationFileRepositoryTest.getFutureReservationsFail">
-    <configuration name="ReservationFileRepositoryTest.findAllShouldBeNot0Size" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.App">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="App" />
       <module name="week-05" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="nik.data.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="nik.data" />
-      <option name="MAIN_CLASS_NAME" value="nik.data.ReservationFileRepositoryTest" />
-      <option name="METHOD_NAME" value="findAllShouldBeNot0Size" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReservationFileRepositoryTest.findByHostIdFailsIfWrongId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationFileRepositoryTest.createReservationSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="week-05" />
       <extension name="coverage">
         <pattern>
@@ -121,7 +109,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="nik.data" />
       <option name="MAIN_CLASS_NAME" value="nik.data.ReservationFileRepositoryTest" />
-      <option name="METHOD_NAME" value="findByHostIdFailsIfWrongId" />
+      <option name="METHOD_NAME" value="createReservationSuccess" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -177,11 +165,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="JUnit.ReservationFileRepositoryTest.createReservationSuccess" />
         <item itemvalue="JUnit.ReservationFileRepositoryTest.getFutureReservationsFail" />
         <item itemvalue="JUnit.ReservationFileRepositoryTest.findByHostIdSuccess" />
         <item itemvalue="JUnit.ReservationFileRepositoryTest.getFutureReservationsSuccess" />
-        <item itemvalue="JUnit.ReservationFileRepositoryTest.findByHostIdFailsIfWrongId" />
-        <item itemvalue="JUnit.ReservationFileRepositoryTest.findAllShouldBeNot0Size" />
       </list>
     </recent_temporary>
   </component>
@@ -212,5 +200,16 @@
       <path value="$PROJECT_DIR$/.." />
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/nik/data/ReservationFileRepository.java</url>
+          <line>101</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

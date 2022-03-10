@@ -6,48 +6,101 @@ import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class ReservationService {
     private final ReservationFileRepository reservationRepository;
-    public ReservationService(ReservationFileRepository reservationRepository){
+
+    public ReservationService(ReservationFileRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
     }
-    public List<Reservation> findByHostId(String Id){
-        return reservationRepository.findByHostId(Id);
-     }
-     public List<Reservation> getFutureReservations(Host h){
-        return  reservationRepository.getFutureReservations(h);
-     }
 
-    public Result<Reservation> createReservation(Host h, Reservation r) throws DataException {
-        Result<Reservation> result = validate(h, r);
-        result.setPayload(reservationRepository.createReservation(h, r));
+    public List<Reservation> findByHostId(String Id) {
+        return reservationRepository.findByHostId(Id);
+    }
+
+    public List<Reservation> getFutureReservations(Host h) {
+        return reservationRepository.getFutureReservations(h);
+    }
+
+    public Result<Reservation> createReservation(String iD, Reservation r) throws DataException {
+        Result<Reservation> result = validate(iD, r);
+        if (!result.isSuccess()) {
+            return result;
+        }
+        result.setPayload(reservationRepository.createReservation(iD, r));
 
         return result;
     }
-     public Result<Reservation> validate(Host h, Reservation r){
-         Result<Reservation> result = new Result<>();
+    //TODO validation not working on dates
+    public Result<Reservation> validate(String iD, Reservation r) {
+        Result<Reservation> result =
+        validateFields(iD, r);
 
-         List<Reservation> reservationsWithId = reservationRepository.findByHostId(h.getiD());
-         for (Reservation res : reservationsWithId){
-             if(r.getStartDate().isAfter(res.getStartDate())&& res.getEndDate().isBefore(r.getEndDate())){
-                 result.addErrorMessage("Reservation starts before and is during a reservation");
-                 return result;
-             }
-             if(r.getEndDate().isBefore(res.getEndDate())&& res.getEndDate().isAfter(r.getEndDate())){
-                 result.addErrorMessage("Reservation ends before and is during a reservation");
-             }
-
-         }
-
-        if(r == null){
-            result.addErrorMessage("Reservation is null");
-            return  result;
-        }else{
-            return result; //TODO more validation
+        if (r == null) {
+            result.addErrorMessage("Reservation is null. ");
+            return result;
         }
-     }
+        return  result;
+    }
+
+    private Result<Reservation> validateNulls(Reservation r) {
+ Result<Reservation> result = new Result<>();
+
+        if (r == null) {
+            result.addErrorMessage("Nothing to save. ");
+            return result;
+        }
+        if (r.getId() == null) {
+            result.addErrorMessage("Id is required. ");
+        }
+        if (r.getStartDate() == null) {
+            result.addErrorMessage("Start date is required. ");
+        }
+        if (r.getEndDate() == null) {
+            result.addErrorMessage("End date is required. ");
+        }
+        if ((r.getGuestId() < 0) || r.getGuestId() >= 1001) {
+            result.addErrorMessage("Not a current guest. ");
+        }
+        if (r.total == null) {
+            result.addErrorMessage("Total amount required. ");
+            return result;
+        }
+        return result;
+    }
+
+    private Result<Reservation> validateFields(String iD, Reservation r) {
+        List<Reservation> reservationsWithId = reservationRepository.findByHostId(iD);
+        Result<Reservation> result = new Result<>();
+
+        if (r.getStartDate().isAfter(r.getEndDate())) {
+            result.addErrorMessage("Reservation start date cannot be after the end date. ");
+            return result;
+        }
+        for (Reservation res : reservationsWithId) {
+            if (r.getStartDate().isEqual(res.getStartDate())
+                    || r.getEndDate().isEqual(res.getEndDate())) {
+                result.addErrorMessage
+                        ("Reservation cannot begin or end on same day,host needs time to checkout");
+            }
+
+            if (res.getStartDate().isAfter(r.getStartDate())
+                    && res.getEndDate().isBefore(r.getEndDate())) {
+                result.addErrorMessage("Reservation starts before and is during a reservation. ");
+            }
+            if (r.getStartDate().isBefore(res.getEndDate())
+                    && r.getEndDate().isAfter(res.getEndDate())) {
+                result.addErrorMessage("Reservation ends after and is during a reservation. ");
+            }
+            return result;
+        }
+        if (r.getStartDate().isBefore(LocalDate.now())) {
+            result.addErrorMessage("Reservation must be for the future. ");
+        }
+        return result;
+    }
 
 
 }

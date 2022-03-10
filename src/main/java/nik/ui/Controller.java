@@ -78,11 +78,10 @@ public class Controller {
         Guest guestToFind = getGuest();
         if(guestService.findAll().contains(guestToFind)){
             System.out.println("Found guest! ");
-            System.out.println("Enter a host email to reserve with that host");
             String email = view.getEmail();
-            String id = hostService.getIdFromEmail(email);
+
+            String iD = hostService.getIdFromEmail(email);
             Host h = hostService.getHostFromEmail(email);
-            List<Reservation> result = reservationService.findByHostId(id);
             System.out.println("Upcoming reservations for host ");
             view.printReservations(h, reservationService.getFutureReservations(h));
             Reservation r = view.createReservation(h, guestToFind);
@@ -93,12 +92,14 @@ public class Controller {
                     r.getGuestId(),
                     r.getTotal()
             );
-            Result<Reservation> res = reservationService.createReservation(h, r);
-            System.out.println(res.isSuccess());
-            System.out.println(res.getErrorMessages());
-
+            Result<Reservation> res = reservationService.createReservation(iD, r);
+            if(res.isSuccess()){
+                view.displayHeader("Created reservation" + r);
+            }else {
+                view.displayHeader(res.getErrorMessages().toString());
+            }
         }else{
-            System.out.println("Did Not Find Guest! TODO");
+            System.out.println("Did Not Find Guest! ");
         }
 
     }
