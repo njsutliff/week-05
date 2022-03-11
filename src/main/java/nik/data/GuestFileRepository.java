@@ -1,17 +1,18 @@
 package nik.data;
 
-import com.google.common.collect.ImmutableList;
 import nik.models.Guest;
+import nik.models.Host;
+import nik.models.Reservation;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GuestFileRepository implements GuestRepository {
     private  final String filePath;
+    ReservationFileRepository reservationRepository = new ReservationFileRepository("./data/reservations");
     public GuestFileRepository(String filePath){ this.filePath = filePath;}
     /**
      * returns all Guests
@@ -36,7 +37,25 @@ public class GuestFileRepository implements GuestRepository {
         }
         return result;
     }
+    //guest_id,first_name,last_name,email,phone,state
 
+    @Override
+    public List<Guest> getGuestsForHostFromReservation(Host h, Reservation r) {
+        List<Reservation> reservation = reservationRepository.findByHostId(h.getiD());
+        List<Guest> result = new ArrayList<>();
+        for (Reservation res : reservation){
+            Guest g = getGuestFromGuestId(String.valueOf(res.guestId));
+            g.setGuestId(String.valueOf(res.guestId));
+            result.add(g);
+        }
+        return result;
+    }
+    public Guest getGuestFromGuestId(String iD){
+        return findAll().stream()
+                .filter(guest -> guest.getGuestId().equalsIgnoreCase(iD))
+                .findFirst()
+                .orElse(null);
+    }
     @Override
     public Guest getGuestByLastName(String lastName) {
         return findAll().stream()

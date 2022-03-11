@@ -36,12 +36,13 @@ public class ReservationService {
     //TODO validation not working on dates
     public Result<Reservation> validate(String iD, Reservation r) {
         Result<Reservation> result =
-        validateFields(iD, r);
+        validateNulls(r);
 
         if (r == null) {
             result.addErrorMessage("Reservation is null. ");
             return result;
         }
+        validateFields(iD, result, r);
         return  result;
     }
 
@@ -71,10 +72,8 @@ public class ReservationService {
         return result;
     }
 
-    private Result<Reservation> validateFields(String iD, Reservation r) {
+    private Result<Reservation> validateFields(String iD, Result<Reservation> result, Reservation r) {
         List<Reservation> reservationsWithId = reservationRepository.findByHostId(iD);
-        Result<Reservation> result = new Result<>();
-
         if (r.getStartDate().isAfter(r.getEndDate())) {
             result.addErrorMessage("Reservation start date cannot be after the end date. ");
             return result;

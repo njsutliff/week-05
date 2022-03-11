@@ -1,13 +1,14 @@
 package nik.data;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import nik.models.Guest;
+import nik.models.Host;
+import nik.models.Reservation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface GuestRepository {
-    public ArrayList<Guest> findAll();
-
-    public Guest getGuestByLastName(String lastName);
+     ArrayList<Guest> findAll();
+     List<Guest> getGuestsForHostFromReservation(Host h, Reservation r);
+     Guest getGuestByLastName(String lastName);
 
 }
