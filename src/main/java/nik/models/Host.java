@@ -57,6 +57,22 @@ public class Host {
     public BigDecimal standardRate;
     public BigDecimal weekendRate;
 
+    @Override
+    public String toString() {
+        return "Host{" +
+                "iD='" + iD + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", standardRate=" + standardRate +
+                ", weekendRate=" + weekendRate +
+                '}';
+    }
+
     public void setReservation(Reservation reservation) {//only once
         this.reservation = reservation;
     }

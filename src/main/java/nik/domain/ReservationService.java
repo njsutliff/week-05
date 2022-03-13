@@ -35,7 +35,7 @@ public class ReservationService {
     }
     //TODO validation not working on dates
     public Result<Reservation> validate(String iD, Reservation r) {
-        Result<Reservation> result =
+        Result<Reservation> result = new Result<>();
         validateNulls(r);
 
         if (r == null) {
@@ -46,12 +46,10 @@ public class ReservationService {
         return  result;
     }
 
-    private Result<Reservation> validateNulls(Reservation r) {
+    private void validateNulls(Reservation r) {
  Result<Reservation> result = new Result<>();
-
         if (r == null) {
             result.addErrorMessage("Nothing to save. ");
-            return result;
         }
         if (r.getId() == null) {
             result.addErrorMessage("Id is required. ");
@@ -67,16 +65,13 @@ public class ReservationService {
         }
         if (r.total == null) {
             result.addErrorMessage("Total amount required. ");
-            return result;
         }
-        return result;
     }
 
-    private Result<Reservation> validateFields(String iD, Result<Reservation> result, Reservation r) {
+    private void validateFields(String iD, Result<Reservation> result, Reservation r) {
         List<Reservation> reservationsWithId = reservationRepository.findByHostId(iD);
         if (r.getStartDate().isAfter(r.getEndDate())) {
             result.addErrorMessage("Reservation start date cannot be after the end date. ");
-            return result;
         }
         for (Reservation res : reservationsWithId) {
             if (r.getStartDate().isEqual(res.getStartDate())
@@ -93,13 +88,9 @@ public class ReservationService {
                     && r.getEndDate().isAfter(res.getEndDate())) {
                 result.addErrorMessage("Reservation ends after and is during a reservation. ");
             }
-            return result;
         }
         if (r.getStartDate().isBefore(LocalDate.now())) {
             result.addErrorMessage("Reservation must be for the future. ");
         }
-        return result;
     }
-
-
 }

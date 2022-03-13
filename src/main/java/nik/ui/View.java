@@ -10,10 +10,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -74,18 +71,44 @@ public class View {
     public String getEmail(){
         return io.readString("Enter a host email to view their reservations: ");
     }
+    public String viewHostsByState() {
+      return io.readRequiredString("enter a host state: ");
+    }
+    //id,last_name,email,phone,address,city,state,postal_code,standard_rate,weekend_rate
+    public  void printHosts(List<Host> h){
+        h.sort(Comparator.comparing(Host::getStandardRate).reversed());
 
+        for (Host host : h) {
+            io.printf(
+                    "%nID #: %s Last Name: %s %nEmail: %s Phone: %s%nAddress: %s-%s, " +
+                            "%s Postal Code: %s%nstandard rate: $%.2f weekend rate: $%.2f%n",
+                    host.getiD(),
+                    host.getLastName(),
+                    host.getEmail(),
+                    host.getPhone(),
+                    host.getAddress(),
+                    host.getCity(),
+                    host.getState(),
+                    host.getPostalCode(),
+                    host.getStandardRate(),
+                    host.getWeekendRate());
+        }
+        //h.stream().forEach(System.out::println);
+    }
 
-
-
-
+    /**
+     * Prints reservations, sorted by most recent end date
+     * (as that would be useful to the administrator)
+     * @param h host passed in
+     * @param r list of reservations to sort and display
+     */
     public void printReservations(Host h, List<Reservation> r) {
         if (r.size() == 0) {
             System.out.println("Host has no reservations!");
         }
 
         else {
-            //r.sort(Comparator.comparing(reservation -> reservation.getEndDate()));
+            //r.sort(Comparator.comparing(Reservation::getEndDate).reversed());//TODO sorting error
             io.printf("Host:  %s Email: %s %n", h.getLastName(), h.getEmail());
             io.printf("%s %s %n",h.getCity(), h.getState());
 
@@ -125,8 +148,27 @@ public class View {
         LocalDate end = io.readLocalDate("Enter a end date. ");
         result.setEndDate(end);
         result.setGuestId(0); // will need to update this in data layer
-        result.setTotal(calculateTotal(h, result));
-        return  result;
+        BigDecimal total = calculateTotal(h, result);
+        result.setTotal(total);
+        return  displaySummary(result, total);
+    }
+
+    private Reservation displaySummary(Reservation reservation, BigDecimal total) {
+        boolean done = false;
+        do{
+            displayHeader("Summary of details");
+            io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s - Total: $%.2f%n",
+                    reservation.getId(),
+                    reservation.getStartDate(),
+                    reservation.getEndDate(),
+                    reservation.getGuestId(),
+                    total
+            );
+            if (io.readRequiredString("Enter 'yes' to confirm").equalsIgnoreCase("yes")){
+                done = true;
+            }
+        }while (!done);
+        return  reservation;
     }
 
     /**

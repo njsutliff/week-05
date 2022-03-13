@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HostFileRepository implements HostRepository {
     ReservationFileRepository repository = new ReservationFileRepository("./data/reservations");
@@ -44,7 +45,12 @@ public class HostFileRepository implements HostRepository {
         return result;
 
     }
+    public List<Host> getHostsFromState(String stateAbbrev){
+            return getAllHosts().stream()
+                    .filter(i -> i.getState().equalsIgnoreCase(stateAbbrev))
+                    .collect(Collectors.toList());
 
+    }
 
     public Host getHostFromEmail(String email) {
        return getAllHosts().stream()

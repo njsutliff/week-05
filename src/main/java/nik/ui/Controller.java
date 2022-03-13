@@ -62,10 +62,15 @@ public class Controller {
     }
 
     private void viewReservations() {
-        //TODO host three layer
-
         view.displayHeader("view Reservations by Host");
         view.displayHeader("[Host Search]");
+
+        String statePrefix = view.viewHostsByState();
+        List<Host> hosts = hostService.getHostsFromState(statePrefix);
+        view.displayHeader("Hosts for state " + statePrefix);
+        view.printHosts(hosts);
+        System.out.printf("%n");
+
         String email = view.getEmail();
         String id = hostService.getIdFromEmail(email);
         Host h = hostService.getHostFromEmail(email);
@@ -94,7 +99,7 @@ public class Controller {
             );
             Result<Reservation> res = reservationService.createReservation(iD, r);
             if(res.isSuccess()){
-                view.displayHeader("Created reservation" + r);
+                view.displayHeader("Created reservation" + guestService.getGuestsForHostFromReservation(h, r));//TODO make better
             }else {
                 view.displayHeader(res.getErrorMessages().toString());
             }
@@ -105,7 +110,12 @@ public class Controller {
     }
 
     private void editReservation() {
-        view.displayHeader("edit a Reservation");
+        view.displayHeader("Search for a guest to edit: ");
+        Guest guest = guestService.getGuestByLastName(view.getLastName());
+        view.displayHeader("Search for a host: ");
+        Host host = hostService.getHostFromEmail(view.getEmail());
+
+
     }
 
     private void cancelReservation() {
