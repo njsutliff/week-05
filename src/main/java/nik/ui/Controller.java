@@ -99,7 +99,7 @@ public class Controller {
             );
             Result<Reservation> res = reservationService.createReservation(iD, r);
             if(res.isSuccess()){
-                view.displayHeader("Created reservation" + guestService.getGuestsForHostFromReservation(h, r));//TODO make better
+                view.displayHeader("Created reservation" +  r);//TODO make better
             }else {
                 view.displayHeader(res.getErrorMessages().toString());
             }

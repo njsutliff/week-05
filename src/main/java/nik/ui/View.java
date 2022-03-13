@@ -148,9 +148,15 @@ public class View {
         LocalDate end = io.readLocalDate("Enter a end date. ");
         result.setEndDate(end);
         result.setGuestId(0); // will need to update this in data layer
-        BigDecimal total = calculateTotal(h, result);
-        result.setTotal(total);
-        return  displaySummary(result, total);
+        if(!result.getEndDate().isBefore(result.getStartDate())) {
+            BigDecimal total = calculateTotal(h, result);
+            result.setTotal(total);
+            return displaySummary(result, total);
+        }
+        else{
+            displayStatus(false, "Start date after end date");
+            return  result;
+        }
     }
 
     private Reservation displaySummary(Reservation reservation, BigDecimal total) {
