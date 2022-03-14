@@ -16,7 +16,12 @@ public class GuestService {
     }
 
     public Guest getGuestByLastName(String lastName) {
+        Result<Guest> result = new Result<>();
+        if (guestRepository.getGuestByLastName(lastName)==null){
+            result.addErrorMessage("No guest found.");
+        }
         return guestRepository.getGuestByLastName(lastName);
+
     }
 
     public List<Guest> getGuestsForHostFromReservation(Host h, Reservation r){

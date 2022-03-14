@@ -32,11 +32,16 @@ public class HostService {
         return  hostRepository.getHostsFromState(stateAbbrev);
     }
 
-    public Host getHostFromEmail(String email) {
+    public Result<Host> getHostFromEmail(String email) {
+        Result<Host> result = new Result<>();
         if(getIdFromEmail(email).equalsIgnoreCase("Email not found")){
+            result.addErrorMessage("Host not found! ");
             //TODO host service add error here
         }
-        return hostRepository.getHostFromEmail(email);
+        if(hostRepository.getHostFromEmail(email)!=null){
+        result.setPayload(hostRepository.getHostFromEmail(email));
+        }
+        return result;
     }
         public Reservation findByEmail(String email) {
         return hostRepository.findReservationByEmail(email);

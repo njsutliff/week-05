@@ -39,4 +39,9 @@ public class ReservationFileRepositoryDouble implements  ReservationRepository{
     public Reservation createReservation(String iD, Reservation r) throws DataException {
         return null;
     }
+
+    @Override
+    public Reservation editReservation(Host h, Reservation r) throws DataException {
+        return null;
     }
+}

@@ -11,10 +11,11 @@ import java.time.LocalDate;
 import java.util.*;
 
 
-public class ReservationFileRepository implements  ReservationRepository {
+public class ReservationFileRepository implements ReservationRepository {
     private final String directory;
     private static final String HEADER = "id,start_date,end_date,guest_id,total";
-        //HostRepository hostRepository = new HostFileRepository("./data/hosts.csv");
+
+    //HostRepository hostRepository = new HostFileRepository("./data/hosts.csv");
     public ReservationFileRepository(String directory) {
         this.directory = directory;
     }
@@ -49,10 +50,10 @@ public class ReservationFileRepository implements  ReservationRepository {
 
     @Override
     public List<Reservation> getFutureReservations(Host h) {
-        if (h!=null) {
+        if (h != null) {
             List<Reservation> all = findByHostId(h.getiD());
             return all.stream().filter(reservation -> reservation.getStartDate().isAfter(LocalDate.now())).toList();
-        }else {
+        } else {
             return new ArrayList<>(0);
         }
     }
@@ -63,8 +64,18 @@ public class ReservationFileRepository implements  ReservationRepository {
         List<Reservation> all = findByHostId(hostId);
         all.add(r);
         int id = all.indexOf(r);
-        r.setId(String.valueOf(id+1));
+        r.setId(String.valueOf(id + 1));
         writeAll(all, hostId);
+        return r;
+    }
+
+    public Reservation editReservation(Host h, Reservation r) throws DataException {
+        LocalDate start = r.getStartDate();
+        LocalDate end = r.getEndDate();
+        List<Reservation> all = findByHostId(h.getiD());
+        r.setStartDate(start);
+        r.setEndDate(end);
+        writeAll(all, h.getiD());
         return r;
     }
 
@@ -91,17 +102,18 @@ public class ReservationFileRepository implements  ReservationRepository {
                 result.getGuestId(),
                 result.getTotal());
     }
-    private Reservation deserialize (String[]fields){
-            //id,start_date,end_date,guest_id,total
 
-            Reservation result = new Reservation();
-            result.setId(fields[0]);
-            result.setStartDate(LocalDate.parse(fields[1]));
-            result.setEndDate(LocalDate.parse(fields[2]));
-            result.setGuestId(Integer.parseInt(fields[3]));
-            result.setTotal(BigDecimal.valueOf(Double.parseDouble(fields[4])));
-            return result;
-        }
+    private Reservation deserialize(String[] fields) {
+        //id,start_date,end_date,guest_id,total
+
+        Reservation result = new Reservation();
+        result.setId(fields[0]);
+        result.setStartDate(LocalDate.parse(fields[1]));
+        result.setEndDate(LocalDate.parse(fields[2]));
+        result.setGuestId(Integer.parseInt(fields[3]));
+        result.setTotal(BigDecimal.valueOf(Double.parseDouble(fields[4])));
+        return result;
+    }
 
 }
 

@@ -16,10 +16,20 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
     }
 
-    public List<Reservation> findByHostId(String Id) {
-        return reservationRepository.findByHostId(Id);
+    public Result<List<Reservation>> findByHostId(String Id) {
+        List<Reservation> resultList = reservationRepository.findByHostId(Id);
+        Result<List<Reservation>> result = new Result<>();
+        if(resultList.size()==0){
+            result.addErrorMessage("Host has no current reservations");
+            return result;
+        }
+        if(!result.isSuccess()){
+            result.addErrorMessage("Host not found");
+            return result;
+        }
+        result.setPayload(resultList);
+        return result;
     }
-
     public List<Reservation> getFutureReservations(Host h) {
         return reservationRepository.getFutureReservations(h);
     }
@@ -33,7 +43,14 @@ public class ReservationService {
 
         return result;
     }
-
+    public Result<Reservation> editReservation(Host h, Reservation r) throws DataException {
+        Result<Reservation> result = new Result<>();
+        if (reservationRepository.findByHostId(h.getiD()).contains(r)){
+            result.addErrorMessage("Improper edit to reservation");//TODO change maybe
+        }
+        result.setPayload(reservationRepository.editReservation(h, r));
+        return  result;
+    }
     //TODO validation not working on dates
     public Result<Reservation> validate(String iD, Reservation r) {
         Result<Reservation> result = new Result<>();
@@ -100,38 +117,8 @@ public class ReservationService {
                 return;
             }
 
-            /*
-            if (r.getStartDate().isEqual(res.getStartDate())
-                    || r.getEndDate().isEqual(res.getEndDate())) {
-                result.addErrorMessage
-                        ("Reservation cannot begin or end on same day,host needs time to checkout");
-            }
-
-            if (r.getStartDate().isAfter(res.getStartDate())
-                    && r.getEndDate().isBefore(res.getEndDate())) {
-                result.addErrorMessage("Reservation starts after and is during an existing reservation. ");
-            }
-            if (r.getStartDate().isBefore(res.getEndDate())
-                    && r.getEndDate().isAfter(res.getEndDate())) {
-                result.addErrorMessage("Reservation ends after and is during an existing reservation. ");
-            }
-            if (r.getStartDate().isBefore(res.getEndDate())
-                    && r.getEndDate().isBefore(res.getEndDate())) {
-                result.addErrorMessage("Reservation is during an existing reservation. ");
-            }
-            if (r.getStartDate().isBefore(res.getStartDate())
-                    && r.getEndDate().isBefore(res.getEndDate())) {
-                result.addErrorMessage("Reservation is during an existing reservation. ");
-            }
-            if (r.getStartDate().isAfter(res.getStartDate())
-                    && r.getEndDate().isAfter(res.getEndDate())) {
-                result.addErrorMessage("Reservation starts before and is during a reservation. ");
-            }
-
-        }
-        if (r.getStartDate().isBefore(LocalDate.now())) {
-            result.addErrorMessage("Reservation must be for the future. ");
-        }*/
         }
     }
+
+
 }

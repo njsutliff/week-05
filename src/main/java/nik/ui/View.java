@@ -13,6 +13,7 @@ import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.zip.GZIPInputStream;
 
 public class View {
 
@@ -37,6 +38,7 @@ public class View {
         String message = String.format("Select [%s-%s]: ", min, max);
         return MainMenuOption.fromValue(io.readInt(message, min, max));
     }
+
     public void enterToContinue() {
         io.readString("Press [Enter] to continue.");
     }
@@ -66,16 +68,19 @@ public class View {
 
     /**
      * Get a host email
+     *
      * @param
      */
-    public String getEmail(){
+    public String getEmail() {
         return io.readString("Enter a host email to view their reservations: ");
     }
+
     public String viewHostsByState() {
-      return io.readRequiredString("enter a host state: ");
+        return io.readRequiredString("enter a host state: ");
     }
+
     //id,last_name,email,phone,address,city,state,postal_code,standard_rate,weekend_rate
-    public  void printHosts(List<Host> h){
+    public void printHosts(List<Host> h) {
         h.sort(Comparator.comparing(Host::getStandardRate).reversed());
 
         for (Host host : h) {
@@ -99,18 +104,17 @@ public class View {
     /**
      * Prints reservations, sorted by most recent end date
      * (as that would be useful to the administrator)
+     *
      * @param h host passed in
      * @param r list of reservations to sort and display
      */
     public void printReservations(Host h, List<Reservation> r) {
         if (r.size() == 0) {
             System.out.println("Host has no reservations!");
-        }
-
-        else {
+        } else {
             //r.sort(Comparator.comparing(Reservation::getEndDate).reversed());//TODO sorting error
             io.printf("Host:  %s Email: %s %n", h.getLastName(), h.getEmail());
-            io.printf("%s %s %n",h.getCity(), h.getState());
+            io.printf("%s %s %n", h.getCity(), h.getState());
 
             for (Reservation reservation : r) {
                 io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s - Total: $%.2f%n",
@@ -126,16 +130,13 @@ public class View {
     }
 
     public String getLastName() {
-       return io.readRequiredString("Enter a last name:");
-    }
-
-    public void printFutureReservations(Host h, List<Reservation> result) {
-
+        return io.readRequiredString("Enter a last name:");
     }
 
     /**
      * Given a host and a guest, return a valid Reservation
-     * @param h host
+     *
+     * @param h           host
      * @param guestToFind guest to add reservation for
      * @return Reservation to pass to Controller -> service -> ReservationRepository.add
      */
@@ -148,20 +149,19 @@ public class View {
         LocalDate end = io.readLocalDate("Enter a end date. ");
         result.setEndDate(end);
         result.setGuestId(0); // will need to update this in data layer
-        if(!result.getEndDate().isBefore(result.getStartDate())) {
+        if (!result.getEndDate().isBefore(result.getStartDate())) {
             BigDecimal total = calculateTotal(h, result);
             result.setTotal(total);
             return displaySummary(result, total);
-        }
-        else{
+        } else {
             displayStatus(false, "Start date after end date");
-            return  result;
+            return result;
         }
     }
 
     private Reservation displaySummary(Reservation reservation, BigDecimal total) {
         boolean done = false;
-        do{
+        do {
             displayHeader("Summary of details");
             io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s - Total: $%.2f%n",
                     reservation.getId(),
@@ -170,33 +170,34 @@ public class View {
                     reservation.getGuestId(),
                     total
             );
-            if (io.readRequiredString("Enter 'yes' to confirm").equalsIgnoreCase("yes")){
+            if (io.readRequiredString("Enter 'yes' to confirm").equalsIgnoreCase("yes")) {
                 done = true;
             }
-        }while (!done);
-        return  reservation;
+        } while (!done);
+        return reservation;
     }
 
     /**
      * Calculates the total for the guest, given the guest's start and end date.
      * Also keep track of weekends to apply weekend rates.
+     *
      * @param host
      * @return
      */
     private BigDecimal calculateTotal(Host host, Reservation reservation) {
-        Predicate<LocalDate> isWeekend = localDate -> localDate.getDayOfWeek()==DayOfWeek.SATURDAY ||
-                localDate.getDayOfWeek()==DayOfWeek.SUNDAY;
-        Predicate<LocalDate> isWeekday = localDate -> localDate.getDayOfWeek()==DayOfWeek.MONDAY ||
-                localDate.getDayOfWeek()==DayOfWeek.TUESDAY||
-                localDate.getDayOfWeek()==DayOfWeek.WEDNESDAY||
-                localDate.getDayOfWeek()==DayOfWeek.THURSDAY||
-                localDate.getDayOfWeek()==DayOfWeek.FRIDAY;
+        Predicate<LocalDate> isWeekend = localDate -> localDate.getDayOfWeek() == DayOfWeek.SATURDAY ||
+                localDate.getDayOfWeek() == DayOfWeek.SUNDAY;
+        Predicate<LocalDate> isWeekday = localDate -> localDate.getDayOfWeek() == DayOfWeek.MONDAY ||
+                localDate.getDayOfWeek() == DayOfWeek.TUESDAY ||
+                localDate.getDayOfWeek() == DayOfWeek.WEDNESDAY ||
+                localDate.getDayOfWeek() == DayOfWeek.THURSDAY ||
+                localDate.getDayOfWeek() == DayOfWeek.FRIDAY;
         //Size of these lists is the number of days stayed
         List<LocalDate> weekdays = reservation.startDate.datesUntil(reservation.endDate)
                 .filter(isWeekday).toList();
         List<LocalDate> weekends = reservation.startDate.datesUntil(reservation.endDate).filter(isWeekend).toList();
 
-        return  calculateWeekday(host, weekdays).add(calculateWeekend(host,weekends));
+        return calculateWeekday(host, weekdays).add(calculateWeekend(host, weekends));
     }
 
     private BigDecimal calculateWeekday(Host host, List<LocalDate> weekdays) {
@@ -207,27 +208,26 @@ public class View {
     private BigDecimal calculateWeekend(Host host, List<LocalDate> weekend) {
         return host.weekendRate.multiply(BigDecimal.valueOf(weekend.size()));
     }
-/**
-    public Reservation makeReservation(Guest guestToFind) {
-        io.readRequiredString("Enter");
+
+    /**
+     * Find a reservation.
+     * Start and end date can be edited. No other data can be edited.
+     * Recalculate the total, display a summary, and ask the user to confirm.
+     *
+     * @param hostReservationsAlreadyExisting list of all reservations to search for
+     * @param guest                           guest to find.
+     */
+    public Reservation editReservation(List<Reservation> hostReservationsAlreadyExisting, Guest guest, Host host) {
+        List<Reservation> editList = hostReservationsAlreadyExisting.stream()
+                .filter(reservation -> reservation.getGuestId() == Integer.parseInt(guest.getGuestId())).toList();
+        printReservations(host, editList);
+        Reservation r = editList.get(0);
+        LocalDate newStart = io.readLocalDate("Enter a new start date: ");
+        LocalDate newEnd = io.readLocalDate("Enter a new end date: ");
+        r.setStartDate(newStart);
+        r.setEndDate(newEnd);
+        return r;
     }
-**/
-/**
-    public void displayReservations(List<Forage> forages) {
-        if (forages == null || forages.isEmpty()) {
-            io.println("No forages found.");
-            return;
-        }
-        for (Forage forage : forages) {
-            io.printf("%s %s - %s:%s - Value: $%.2f%n",
-                    forage.getForager().getFirstName(),
-                    forage.getForager().getLastName(),
-                    forage.getItem().getName(),
-                    forage.getItem().getCategory(),
-                    forage.getValue()
-            );
-        }
-    }
-**/
+
 
 }

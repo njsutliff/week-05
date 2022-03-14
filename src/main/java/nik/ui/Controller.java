@@ -73,20 +73,21 @@ public class Controller {
 
         String email = view.getEmail();
         String id = hostService.getIdFromEmail(email);
-        Host h = hostService.getHostFromEmail(email);
-        List<Reservation> result = reservationService.findByHostId(id);
-        view.printReservations(h, result);
+        Host h = hostService.getHostFromEmail(email).getPayload();
+        Result<List<Reservation>> result = reservationService.findByHostId(id);
+        view.printReservations(h, result.getPayload());//TODO recent change here with sevice findByHostID watch
     }
+
     //Books accommodations for a guest at a host.
     private void makeReservation() throws DataException {
         view.displayHeader("make a Reservation");
         Guest guestToFind = getGuest();
-        if(guestService.findAll().contains(guestToFind)){
+        if (guestService.findAll().contains(guestToFind)) {
             System.out.println("Found guest! ");
             String email = view.getEmail();
 
             String iD = hostService.getIdFromEmail(email);
-            Host h = hostService.getHostFromEmail(email);
+            Host h = hostService.getHostFromEmail(email).getPayload();
             System.out.println("Upcoming reservations for host ");
             view.printReservations(h, reservationService.getFutureReservations(h));
             Reservation r = view.createReservation(h, guestToFind);
@@ -98,23 +99,50 @@ public class Controller {
                     r.getTotal()
             );
             Result<Reservation> res = reservationService.createReservation(iD, r);
-            if(res.isSuccess()){
-                view.displayHeader("Created reservation" +  r);//TODO make better
-            }else {
+            if (res.isSuccess()) {
+                view.displayHeader("Created reservation" + r);//TODO make better
+            } else {
                 view.displayHeader(res.getErrorMessages().toString());
             }
-        }else{
+        } else {
             System.out.println("Did Not Find Guest! ");
         }
 
     }
 
-    private void editReservation() {
-        view.displayHeader("Search for a guest to edit: ");
-        Guest guest = guestService.getGuestByLastName(view.getLastName());
-        view.displayHeader("Search for a host: ");
-        Host host = hostService.getHostFromEmail(view.getEmail());
+    private void editReservation() throws DataException {
+        view.displayHeader("Edit a reservation");
+        Guest guest = getGuest();
 
+        if (guestService.findAll().contains(guest)) {
+            view.displayHeader("Found guest!");
+        } else {
+            view.displayStatus(false,"Failed to find guest");
+        }
+        String email = view.getEmail();
+        if (hostService.getHostFromEmail(email).isSuccess()) {
+            Host h = hostService.getHostFromEmail(email).getPayload();
+            Result<List<Reservation>>  result = reservationService.findByHostId(h.getiD());
+            if(result.isSuccess()) {// Host has a reservation
+                List<Reservation> hostReservation = reservationService
+                        .findByHostId(hostService.getIdFromEmail(email)).getPayload();
+                Reservation r = view.editReservation(hostReservation, guest, h);
+                Result<Reservation> reservationResult = reservationService.editReservation(h, r);
+                if (reservationResult.isSuccess()) {
+                    view.displayHeader("Reservation" + r.getId() + "edited successfully");
+                } else {
+                    System.out.println(reservationResult.getErrorMessages());
+                }
+            }
+            else{
+                view.displayStatus(false, "Host does not have any current reservations to edit. ");
+            }
+        } else {
+            view.displayStatus(false, "Failed to find host");
+        }
+
+
+        // view.printReservations(host, hostReservationsAlreadyExisting);
 
     }
 
@@ -125,6 +153,12 @@ public class Controller {
 
     private Guest getGuest() {
         String lastName = view.getLastName();
+
         return guestService.getGuestByLastName(lastName);
+    }
+
+    private Host getHost() {
+        String email = view.getEmail();
+        return hostService.getHostFromEmail(email).getPayload();
     }
 }
