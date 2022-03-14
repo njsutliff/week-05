@@ -144,9 +144,9 @@ public class View {
         Reservation result = new Reservation();
         result.setHost(h);
         result.setId(String.valueOf(0));
-        LocalDate start = io.readLocalDate("Enter a start date. ");
+        LocalDate start = io.readLocalDate("Enter a start date. ", LocalDate.EPOCH);
         result.setStartDate(start);
-        LocalDate end = io.readLocalDate("Enter a end date. ");
+        LocalDate end = io.readLocalDate("Enter a end date. ", LocalDate.EPOCH);
         result.setEndDate(end);
         result.setGuestId(Integer.parseInt(guestToFind.getGuestId())); // will need to update this in data layer
         if (!result.getEndDate().isBefore(result.getStartDate())) {
@@ -222,8 +222,15 @@ public class View {
                 .filter(reservation -> reservation.getGuestId() == Integer.parseInt(guest.getGuestId())).toList();
         printReservations(host, editList);
         Reservation r = editList.get(0);
-        LocalDate newStart = io.readLocalDate("Enter a new start date: ");
-        LocalDate newEnd = io.readLocalDate("Enter a new end date: ");
+
+        LocalDate newStart = io.readLocalDate("Enter a new start date: ", r.startDate);
+        if (newStart.equals(r.getStartDate())){
+            io.readEnter("Enter to keep the previous value");
+        }
+        LocalDate newEnd = io.readLocalDate("Enter a new end date: ", r.endDate);
+        if (newEnd.equals(r.getEndDate())){
+            io.readEnter("Enter to keep the previous value");
+        }
         r.setStartDate(newStart);
         r.setEndDate(newEnd);
        return displayEdit(r);

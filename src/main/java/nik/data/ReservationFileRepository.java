@@ -71,14 +71,21 @@ public class ReservationFileRepository implements ReservationRepository {
 
     public Reservation editReservation(Host h, Reservation r) throws DataException {
         List<Reservation> all = findByHostId(h.getiD());
-        all.set(Integer.parseInt(r.getId())-1, r);
-       // all.remove(Integer.parseInt(r.getId()));
-       // all.add(Integer.parseInt(r.getId()+1), r);
+        all.set(Integer.parseInt(r.getId()) - 1, r);
+        // all.remove(Integer.parseInt(r.getId()));
+        // all.add(Integer.parseInt(r.getId()+1), r);
 
         writeAll(all, h.getiD());
         return r;
     }
 
+    public Reservation cancelReservation(Host h, Reservation r) throws DataException {
+        List<Reservation> all = findByHostId(h.getiD());
+        all.remove(r);
+        List<Reservation> newList = all;
+        writeAll(newList, h.getiD());
+        return r;
+    }
 
     private void writeAll(List<Reservation> reservationList, String iD) throws DataException {
         try (PrintWriter writer = new PrintWriter(getFilePath(iD))) {

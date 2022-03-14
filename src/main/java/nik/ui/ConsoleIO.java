@@ -86,22 +86,25 @@ public class ConsoleIO {
             println(String.format(NUMBER_OUT_OF_RANGE, min, max));
         }
     }
-
-    public boolean readBoolean(String prompt) {
+    public boolean readEnter(String prompt) {
         while (true) {
-            String input = readRequiredString(prompt).toLowerCase();
-            if (input.equals("y")) {
+            String input = readString(prompt);
+            if (input.isBlank()) {
                 return true;
-            } else if (input.equals("n")) {
+            }else if(!input.isBlank()){
                 return false;
             }
-            println("[INVALID] Please enter 'y' or 'n'.");
+            println("[INVALID] please enter 'Enter' to keep value. ");
         }
     }
 
-    public LocalDate readLocalDate(String prompt) {
+
+    public LocalDate readLocalDate(String prompt, LocalDate old) {
         while (true) {
             String input = readRequiredString(prompt);
+            if(LocalDate.parse(input, formatter).equals(old)){
+                return LocalDate.parse(input, formatter);
+            }
             try {
                 return LocalDate.parse(input, formatter);
             } catch (DateTimeParseException ex) {

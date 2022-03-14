@@ -143,12 +143,12 @@ public class Controller {
 
     private void cancelReservation() {
         view.displayHeader("Cancel a Reservation");
+        //TODO barebones service and data layer should be working
     }
 
 
     private Guest getGuest() {
         String lastName = view.getLastName();
-
         return guestService.getGuestByLastName(lastName);
     }
 

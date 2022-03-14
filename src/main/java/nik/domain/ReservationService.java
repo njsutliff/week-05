@@ -51,6 +51,16 @@ public class ReservationService {
         result.setPayload(reservationRepository.editReservation(h, r));
         return  result;
     }
+    public  Result<Reservation> cancelReservation(Host h, Reservation r) throws  DataException{
+        Result<Reservation> result = new Result<>();
+        List<Reservation> reservationList = reservationRepository.findByHostId(h.getiD());
+        if(!reservationList.remove(r)){ //false if r not existing in repository
+            result.addErrorMessage("Reservation does not exist, cannot delete it. ");
+        }
+        result.setPayload(reservationRepository.cancelReservation(h, r));
+        return  result;
+
+    }
     //TODO validation not working on dates
     public Result<Reservation> validate(String iD, Reservation r) {
         Result<Reservation> result = new Result<>();
