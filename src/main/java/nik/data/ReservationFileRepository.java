@@ -70,11 +70,11 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     public Reservation editReservation(Host h, Reservation r) throws DataException {
-        LocalDate start = r.getStartDate();
-        LocalDate end = r.getEndDate();
         List<Reservation> all = findByHostId(h.getiD());
-        r.setStartDate(start);
-        r.setEndDate(end);
+        all.set(Integer.parseInt(r.getId())-1, r);
+       // all.remove(Integer.parseInt(r.getId()));
+       // all.add(Integer.parseInt(r.getId()+1), r);
+
         writeAll(all, h.getiD());
         return r;
     }

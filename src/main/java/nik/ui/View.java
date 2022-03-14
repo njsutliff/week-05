@@ -148,7 +148,7 @@ public class View {
         result.setStartDate(start);
         LocalDate end = io.readLocalDate("Enter a end date. ");
         result.setEndDate(end);
-        result.setGuestId(0); // will need to update this in data layer
+        result.setGuestId(Integer.parseInt(guestToFind.getGuestId())); // will need to update this in data layer
         if (!result.getEndDate().isBefore(result.getStartDate())) {
             BigDecimal total = calculateTotal(h, result);
             result.setTotal(total);
@@ -226,8 +226,24 @@ public class View {
         LocalDate newEnd = io.readLocalDate("Enter a new end date: ");
         r.setStartDate(newStart);
         r.setEndDate(newEnd);
-        return r;
+       return displayEdit(r);
+    }
+    private  Reservation displayEdit( Reservation reservation){
+        boolean done = false;
+        do {
+            displayHeader("Summary of details");
+            io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s%n",
+                    reservation.getId(),
+                    reservation.getStartDate(),
+                    reservation.getEndDate(),
+                    reservation.getGuestId()
+            );
+            if (io.readRequiredString("Enter 'yes' to confirm").equalsIgnoreCase("yes")) {
+                done = true;
+            }
+        } while (!done);
+        return reservation;
+    }
     }
 
 
-}
