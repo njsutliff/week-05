@@ -1,29 +1,29 @@
 # week-05
-- [ ] View Reservations for Host
-- [ ] Make a reservation
-- [ ] Make a reservation
-- [ ] Make a reservation
+- [x] View Reservations for Host
+- [x] Make a reservation
+- [x] Edit a reservation
+- [x] Cancel a reservation
 - [x] exit
 ## UI
 - [x] ConsoleIO
-- [x] Basic Controller
-  - No functionality apart from run loop and method stubs
-- [x] Basic View with displays added
-  - No functionality other than displays
+- [x]  Controller
+- [x]  View 
 - [x] Main Menu Options
 - [x] exit
 ## Service
 - [x] ReservationService
-- [ ] HostService
-- [ ] GuestService
+- [x] HostService
+- [x] GuestService
 ## Models
 - [x] Reservation
-- [ ] Host
--  [ ] Guest
+- [x] Host
+-  [x] Guest
 ## Data
 - [x] ReservationRepostiory
-- [ ] HostRepository
-- [ ] GuestRepository
+- [x] HostRepository
+- [x] GuestRepository
 ## Testing
-- [ ] for all
+- [x] Repository
+- [ ] Service layer
 ## Spring DI
+- [ ]
