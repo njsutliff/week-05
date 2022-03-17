@@ -51,13 +51,17 @@ public class ReservationService {
         result.setPayload(reservationRepository.editReservation(h, r));
         return  result;
     }
-    public  Result<Reservation> cancelReservation(Host h, Reservation r) throws  DataException{
-        Result<Reservation> result = new Result<>();
+    public  Result<List<Reservation>> cancelReservation(Host h, Reservation r) throws  DataException{
+        Result<List<Reservation>> result = new Result<>();
         List<Reservation> reservationList = reservationRepository.findByHostId(h.getiD());
-        if(!reservationList.remove(r)){ //false if r not existing in repository
+        /*if(!reservationList.remove(r)){ //false if r not existing in repository
             result.addErrorMessage("Reservation does not exist, cannot delete it. ");
-        }
-        result.setPayload(reservationRepository.cancelReservation(h, r));
+        }*/
+        /*if(!reservationRepository.cancelReservation(h,r)){
+            result.addErrorMessage("Cannot delete");
+        }*/
+            result.setPayload(reservationRepository.cancelReservation(h, r));
+
         return  result;
 
     }

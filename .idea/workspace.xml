@@ -6,12 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="ed879fd6-23e5-4bf6-a89d-4faeee59145d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/reservations/1c324259-023f-42c0-9826-0f1e2882693d.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/reservations/1c324259-023f-42c0-9826-0f1e2882693d.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/reservations/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/reservations/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/test/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/test/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/ReservationFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/ReservationFileRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/domain/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/domain/ReservationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nik/ui/ConsoleIO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/ui/ConsoleIO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/ui/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/ui/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/ui/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/ui/View.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/nik/data/HostFileRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/nik/data/HostFileRepositoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/nik/data/ReservationFileRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/nik/data/ReservationFileRepositoryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +100,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GuestFileRepositoryTest.FailsToGetGuestNotExisting" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationFileRepositoryTest.findByHostId" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="week-05" />
       <extension name="coverage">
         <pattern>
@@ -106,14 +109,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="nik.data" />
-      <option name="MAIN_CLASS_NAME" value="nik.data.GuestFileRepositoryTest" />
-      <option name="METHOD_NAME" value="FailsToGetGuestNotExisting" />
+      <option name="MAIN_CLASS_NAME" value="nik.data.ReservationFileRepositoryTest" />
+      <option name="METHOD_NAME" value="findByHostId" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GuestFileRepositoryTest.TestGettingGuestsForFirstResAndHost" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationFileRepositoryTest.findByHostIdSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="week-05" />
       <extension name="coverage">
         <pattern>
@@ -122,14 +125,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="nik.data" />
-      <option name="MAIN_CLASS_NAME" value="nik.data.GuestFileRepositoryTest" />
-      <option name="METHOD_NAME" value="TestGettingGuestsForFirstResAndHost" />
+      <option name="MAIN_CLASS_NAME" value="nik.data.ReservationFileRepositoryTest" />
+      <option name="METHOD_NAME" value="findByHostIdSuccess" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GuestFileRepositoryTest.findAllGuests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationFileRepositoryTest.testActuallyDeletes" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="week-05" />
       <extension name="coverage">
         <pattern>
@@ -138,14 +141,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="nik.data" />
-      <option name="MAIN_CLASS_NAME" value="nik.data.GuestFileRepositoryTest" />
-      <option name="METHOD_NAME" value="findAllGuests" />
+      <option name="MAIN_CLASS_NAME" value="nik.data.ReservationFileRepositoryTest" />
+      <option name="METHOD_NAME" value="testActuallyDeletes" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GuestFileRepositoryTest.getGuestByLastName" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ReservationFileRepositoryTest.testCancel" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="week-05" />
       <extension name="coverage">
         <pattern>
@@ -154,8 +157,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="nik.data" />
-      <option name="MAIN_CLASS_NAME" value="nik.data.GuestFileRepositoryTest" />
-      <option name="METHOD_NAME" value="getGuestByLastName" />
+      <option name="MAIN_CLASS_NAME" value="nik.data.ReservationFileRepositoryTest" />
+      <option name="METHOD_NAME" value="testCancel" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -164,10 +167,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.App" />
-        <item itemvalue="JUnit.GuestFileRepositoryTest.TestGettingGuestsForFirstResAndHost" />
-        <item itemvalue="JUnit.GuestFileRepositoryTest.FailsToGetGuestNotExisting" />
-        <item itemvalue="JUnit.GuestFileRepositoryTest.getGuestByLastName" />
-        <item itemvalue="JUnit.GuestFileRepositoryTest.findAllGuests" />
+        <item itemvalue="JUnit.ReservationFileRepositoryTest.testActuallyDeletes" />
+        <item itemvalue="JUnit.ReservationFileRepositoryTest.testCancel" />
+        <item itemvalue="JUnit.ReservationFileRepositoryTest.findByHostId" />
+        <item itemvalue="JUnit.ReservationFileRepositoryTest.findByHostIdSuccess" />
       </list>
     </recent_temporary>
   </component>
@@ -204,7 +207,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/nik/data/ReservationFileRepository.java</url>
-          <line>120</line>
+          <line>119</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>

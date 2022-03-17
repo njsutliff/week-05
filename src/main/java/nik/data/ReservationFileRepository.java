@@ -15,7 +15,6 @@ public class ReservationFileRepository implements ReservationRepository {
     private final String directory;
     private static final String HEADER = "id,start_date,end_date,guest_id,total";
 
-    //HostRepository hostRepository = new HostFileRepository("./data/hosts.csv");
     public ReservationFileRepository(String directory) {
         this.directory = directory;
     }
@@ -79,12 +78,12 @@ public class ReservationFileRepository implements ReservationRepository {
         return r;
     }
 
-    public Reservation cancelReservation(Host h, Reservation r) throws DataException {
+    public List<Reservation> cancelReservation(Host h, Reservation r) throws DataException {
         List<Reservation> all = findByHostId(h.getiD());
-        all.remove(r);
-        List<Reservation> newList = all;
-        writeAll(newList, h.getiD());
-        return r;
+        all.remove(Integer.parseInt(r.getId())-1);
+                List<Reservation> newList = all.stream().toList();
+                writeAll(newList, h.getiD());
+                return newList;
     }
 
     private void writeAll(List<Reservation> reservationList, String iD) throws DataException {

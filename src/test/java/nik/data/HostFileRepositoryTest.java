@@ -17,16 +17,17 @@ class HostFileRepositoryTest {
     void findReservationGivenEmail() {
         String email = "eyearnes0@sfgate.com";
         Reservation r = repository.findReservationByEmail(email);
-
         String iD = repository.getIdFromEmail(email);
        System.out.println(iD);
         System.out.println(r.getGuestId());
+        assertEquals(r.getId(), iD);
     }
 
     @Test
-    void testFindByEmail() {
+    void testFindIdByEmail() {
         String email = "eyearnes0@sfgate.com";
         String iD = repository.getIdFromEmail(email);
+        System.out.println(iD);
         assertEquals("3edda6bc-ab95-49a8-8962-d50b53f84b15", iD);
     }
     @Test

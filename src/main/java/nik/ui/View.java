@@ -208,7 +208,19 @@ public class View {
     private BigDecimal calculateWeekend(Host host, List<LocalDate> weekend) {
         return host.weekendRate.multiply(BigDecimal.valueOf(weekend.size()));
     }
-
+    public Reservation cancel(List<Reservation> hostReservation, Guest guest, Host host) {
+        List<Reservation> editList = hostReservation.stream()
+                .filter(reservation -> reservation.getGuestId() == Integer.parseInt(guest.getGuestId())).toList();
+        printReservations(host, editList);
+        Reservation r = editList.get(0);
+        io.readRequiredString("Do you want to delete Reservation " + r.getId());
+        List<Reservation> listToPrint = new ArrayList<>();
+        listToPrint.add(r);
+        printReservations(host, listToPrint);
+        r.setGuestId(Integer.parseInt(guest.getGuestId()));
+        displaySummary(r, r.getTotal());
+        return r;
+    }
     /**
      * Find a reservation.
      * Start and end date can be edited. No other data can be edited.
@@ -251,6 +263,21 @@ public class View {
         } while (!done);
         return reservation;
     }
+/**
+    public Reservation cancelReservation(Host h, Guest guest, Reservation r) {
+        io.readRequiredString("Do you want to delete Reservation " + r.getGuestId());
+        List<Reservation> listToPrint = new ArrayList<>();
+        listToPrint.add(r);
+        printReservations(h, listToPrint);
+        r.setGuestId(Integer.parseInt(guest.getGuestId()));
+        displaySummary(r, r.getTotal());
+        System.out.println(r.getStartDate());
+        System.out.println(r.getStartDate());
+
+        return r;
     }
+**/
+
+}
 
 

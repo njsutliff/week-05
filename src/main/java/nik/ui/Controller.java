@@ -141,8 +141,36 @@ public class Controller {
         }
     }
 
-    private void cancelReservation() {
+    private void cancelReservation() throws DataException {
         view.displayHeader("Cancel a Reservation");
+        Guest guest = getGuest();
+        if (guestService.findAll().contains(guest)) {
+            view.displayHeader("Found guest!");
+        } else {
+            view.displayStatus(false,"Failed to find guest");
+        }
+        String email = view.getEmail();
+        if (!hostService.getHostFromEmail(email).isSuccess()) {
+            view.displayStatus(false, "Failed to find host");
+        }else {
+            Host h = hostService.getHostFromEmail(email).getPayload();
+            Result<List<Reservation>>  result = reservationService.findByHostId(h.getiD());
+        if (result.isSuccess()) {
+            List<Reservation> hostReservation = reservationService
+                    .findByHostId(hostService.getIdFromEmail(email)).getPayload();
+
+            Reservation r = view.cancel(hostReservation, guest, h);
+            Result<List<Reservation>> res = reservationService.cancelReservation(h,r);
+            if (res.isSuccess()){
+                System.out.println("Reservation deleted successfully");
+                view.printReservations(h, res.getPayload());
+            }
+            else {
+                res.getErrorMessages().stream().forEach(System.out::println);
+            }
+        }
+
+        }
         //TODO barebones service and data layer should be working
     }
 
