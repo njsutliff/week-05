@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +21,7 @@ public class HostFileRepository implements HostRepository {
 
     /**
      * Gets a list of all Hosts (i.e. in hosts.csv)
+     *
      * @return List of hosts.
      */
     @Override
@@ -45,15 +45,26 @@ public class HostFileRepository implements HostRepository {
         return result;
 
     }
-    public List<Host> getHostsFromState(String stateAbbrev){
-            return getAllHosts().stream()
-                    .filter(i -> i.getState().equalsIgnoreCase(stateAbbrev))
-                    .collect(Collectors.toList());
+
+    /**
+     *
+     * @param stateAbbrev state to find
+     * @return list of hosts with that state
+     */
+    public List<Host> getHostsFromState(String stateAbbrev) {
+        return getAllHosts().stream()
+                .filter(i -> i.getState().equalsIgnoreCase(stateAbbrev))
+                .collect(Collectors.toList());
 
     }
 
+    /**
+     *
+     * @param email email to get Host from
+     * @return Host returned
+     */
     public Host getHostFromEmail(String email) {
-       return getAllHosts().stream()
+        return getAllHosts().stream()
                 .filter(i -> i.getEmail().equalsIgnoreCase(email))
                 .findFirst()
                 .orElse(null);
@@ -61,7 +72,7 @@ public class HostFileRepository implements HostRepository {
 
     @Override
     public Host getHostFromLastName(String lastName) {
-       return getAllHosts().stream()
+        return getAllHosts().stream()
                 .filter(i -> i.getEmail().equalsIgnoreCase(lastName))
                 .findFirst()
                 .orElse(null);
@@ -69,15 +80,16 @@ public class HostFileRepository implements HostRepository {
 
     /**
      * Given a host's email, returns that host's Id. used by service->UI->View Reservations
-     * @param  email
-     * @return Id
+     *
+     * @param email email to get Id from
+     * @return Id of host
      */
     public String getIdFromEmail(String email) {
         List<Host> allHosts = getAllHosts();
         String iD = "";
-        for (Host h : allHosts){
-            if(h.email.equals(email)){
-                 iD = h.getiD();
+        for (Host h : allHosts) {
+            if (h.email.equals(email)) {
+                iD = h.getiD();
             }
         }
         return iD;
@@ -85,8 +97,9 @@ public class HostFileRepository implements HostRepository {
 
     /**
      * Given a host's email, return the Reservation for that email. Uses ReservationFileRepository
-     * @param email
-     * @return
+     *
+     * @param email host's email
+     * @return Reservation for that email
      */
     public Reservation findReservationByEmail(String email) {
         Reservation res = new Reservation();
@@ -97,12 +110,10 @@ public class HostFileRepository implements HostRepository {
                 res = r;
             }
         }
-        return  res;
+        return res;
     }
 
-
-
-    private Host deserialize (String[]fields){
+    private Host deserialize(String[] fields) {
         //id,last_name,email,phone,address,city,state,postal_code,standard_rate,weekend_rate
 
         Host result = new Host();

@@ -109,6 +109,9 @@ public class View {
      * @param r list of reservations to sort and display
      */
     public void printReservations(Host h, List<Reservation> r) {
+        if (r == null){
+            return;
+        }
         if (r.size() == 0) {
             System.out.println("Host has no reservations!");
         } else {
@@ -212,7 +215,12 @@ public class View {
         List<Reservation> editList = hostReservation.stream()
                 .filter(reservation -> reservation.getGuestId() == Integer.parseInt(guest.getGuestId())).toList();
         printReservations(host, editList);
-        Reservation r = editList.get(0);
+        Reservation r = new Reservation();
+        if(editList.size() > 0) {
+             r = editList.get(0);
+        }if(editList.size()==0){
+            return  r;
+        }
         io.readRequiredString("Do you want to delete Reservation " + r.getId());
         List<Reservation> listToPrint = new ArrayList<>();
         listToPrint.add(r);
@@ -263,21 +271,6 @@ public class View {
         } while (!done);
         return reservation;
     }
-/**
-    public Reservation cancelReservation(Host h, Guest guest, Reservation r) {
-        io.readRequiredString("Do you want to delete Reservation " + r.getGuestId());
-        List<Reservation> listToPrint = new ArrayList<>();
-        listToPrint.add(r);
-        printReservations(h, listToPrint);
-        r.setGuestId(Integer.parseInt(guest.getGuestId()));
-        displaySummary(r, r.getTotal());
-        System.out.println(r.getStartDate());
-        System.out.println(r.getStartDate());
-
-        return r;
-    }
-**/
-
 }
 
 

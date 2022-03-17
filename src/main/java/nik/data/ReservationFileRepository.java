@@ -24,8 +24,8 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     /**
-     * @param iD
-     * @return A list of Reservations that correspond to an Id.
+     * @param iD host Id to find List from
+     * @return A list of Reservations that correspond to Id.
      */
     public List<Reservation> findByHostId(String iD) {
 
@@ -57,6 +57,13 @@ public class ReservationFileRepository implements ReservationRepository {
         }
     }
 
+    /**
+     *
+     * @param hostId host Id to create Reservation for
+     * @param r the Reservation to create
+     * @return Reservation created to ReservationService
+     * @throws DataException
+     */
     @Override
     public Reservation createReservation(String hostId, Reservation r) throws DataException {
 
@@ -68,26 +75,43 @@ public class ReservationFileRepository implements ReservationRepository {
         return r;
     }
 
+    /**
+     * Edits a Reservation r for Host h
+     * @param h Host
+     * @param r Reservation
+     * @return the edited Reservation
+     * @throws DataException
+     */
     public Reservation editReservation(Host h, Reservation r) throws DataException {
         List<Reservation> all = findByHostId(h.getiD());
         all.set(Integer.parseInt(r.getId()) - 1, r);
-        // all.remove(Integer.parseInt(r.getId()));
-        // all.add(Integer.parseInt(r.getId()+1), r);
-
         writeAll(all, h.getiD());
         return r;
     }
 
+    /**
+     * Cancels a Reservation r for Host h
+     * @param h Host to cancel reservation for
+     * @param r Reservation to cancel
+     * @return new List not including cancelled reservation
+     * @throws DataException
+     */
     public List<Reservation> cancelReservation(Host h, Reservation r) throws DataException {
         List<Reservation> all = findByHostId(h.getiD());
-        all.remove(Integer.parseInt(r.getId())-1);
-                List<Reservation> newList = all.stream().toList();
-                writeAll(newList, h.getiD());
-                return newList;
+        all.remove(Integer.parseInt(r.getId()) - 1);
+        List<Reservation> newList = all.stream().toList();
+        writeAll(newList, h.getiD());
+        return newList;
     }
 
-    private void writeAll(List<Reservation> reservationList, String iD) throws DataException {
-        try (PrintWriter writer = new PrintWriter(getFilePath(iD))) {
+    /**
+     * Writes data to file
+     * @param reservationList the list to write to
+     * @param iD the Id for Host to write file for
+     * @throws DataException
+     */
+    private void writeAll(List<Reservation> reservationList, String Id) throws DataException {
+        try (PrintWriter writer = new PrintWriter(getFilePath(Id))) {
 
             writer.println(HEADER);
 
@@ -99,8 +123,12 @@ public class ReservationFileRepository implements ReservationRepository {
         }
     }
 
+    /**
+     * Serializes a Reservation to a String. Used for writing to file.
+     * @param result Reservation to write
+     * @return String of the serialized Reservation.
+     */
     private String serialize(Reservation result) {
-        //id,start_date,end_date,guest_id,total
         return String.format("%s,%s,%s,%s,%s",
                 result.getId(),
                 result.getStartDate(),
@@ -109,9 +137,12 @@ public class ReservationFileRepository implements ReservationRepository {
                 result.getTotal());
     }
 
+    /**
+     * Deserializes a line of text file to a Reservation
+     * @param fields the fields of the Reservation to be returned
+     * @return Reservation that was deserialized.
+     */
     private Reservation deserialize(String[] fields) {
-        //id,start_date,end_date,guest_id,total
-
         Reservation result = new Reservation();
         result.setId(fields[0]);
         result.setStartDate(LocalDate.parse(fields[1]));

@@ -11,9 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GuestFileRepository implements GuestRepository {
-    private  final String filePath;
+    private final String filePath;
     ReservationFileRepository reservationRepository = new ReservationFileRepository("./data/reservations");
-    public GuestFileRepository(String filePath){ this.filePath = filePath;}
+
+    public GuestFileRepository(String filePath) {
+        this.filePath = filePath;
+    }
+
     /**
      * returns all Guests
      *
@@ -37,25 +41,42 @@ public class GuestFileRepository implements GuestRepository {
         }
         return result;
     }
-    //guest_id,first_name,last_name,email,phone,state
 
+    /**
+     * Returns a List of Guests for a Host from a Reservation
+     * @param h the Host to return a list of Guests for
+     * @param r the Reservation used to get Guests
+     * @return List of guests.
+     */
     @Override
     public List<Guest> getGuestsForHostFromReservation(Host h, Reservation r) {
         List<Reservation> reservation = reservationRepository.findByHostId(h.getiD());
         List<Guest> result = new ArrayList<>();
-        for (Reservation res : reservation){
+        for (Reservation res : reservation) {
             Guest g = getGuestFromGuestId(String.valueOf(res.guestId));
             g.setGuestId(String.valueOf(res.guestId));
             result.add(g);
         }
         return result;
     }
-    public Guest getGuestFromGuestId(String iD){
+
+    /**
+     * Given an Id returns a Guest.
+     * @param Id a host Id
+     * @return Guest found or null if not
+     */
+    public Guest getGuestFromGuestId(String Id) {
         return findAll().stream()
-                .filter(guest -> guest.getGuestId().equalsIgnoreCase(iD))
+                .filter(guest -> guest.getGuestId().equalsIgnoreCase(Id))
                 .findFirst()
                 .orElse(null);
     }
+
+    /**
+     * Given a Guest's last name, return the guest.
+     * @param lastName e.g "Lomas"
+     * @return Guest found or null if not
+     */
     @Override
     public Guest getGuestByLastName(String lastName) {
         return findAll().stream()
@@ -64,9 +85,13 @@ public class GuestFileRepository implements GuestRepository {
                 .orElse(null);
     }
 
+    /**
+     * Deserializes a Guest
+     * @param fields Guest data fields
+     * @return a Guest
+     */
     private Guest deserialize(String[] fields) {
         Guest result = new Guest();
-        //guest_id,first_name,last_name,email,phone,state
         result.setGuestId(fields[0]);
         result.setFirstName(fields[1]);
         result.setLastName(fields[2]);

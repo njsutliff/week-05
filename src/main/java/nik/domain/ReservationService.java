@@ -19,17 +19,18 @@ public class ReservationService {
     public Result<List<Reservation>> findByHostId(String Id) {
         List<Reservation> resultList = reservationRepository.findByHostId(Id);
         Result<List<Reservation>> result = new Result<>();
-        if(resultList.size()==0){
+        if (resultList.size() == 0) {
             result.addErrorMessage("Host has no current reservations");
             return result;
         }
-        if(!result.isSuccess()){
+        if (!result.isSuccess()) {
             result.addErrorMessage("Host not found");
             return result;
         }
         result.setPayload(resultList);
         return result;
     }
+
     public List<Reservation> getFutureReservations(Host h) {
         return reservationRepository.getFutureReservations(h);
     }
@@ -43,29 +44,25 @@ public class ReservationService {
 
         return result;
     }
+
     public Result<Reservation> editReservation(Host h, Reservation r) throws DataException {
         Result<Reservation> result = new Result<>();
-        if (reservationRepository.findByHostId(h.getiD()).contains(r)){
-            result.addErrorMessage("Improper edit to reservation");//TODO change maybe
+        if (reservationRepository.findByHostId(h.getiD()).contains(r)) {
+            result.addErrorMessage("Cannot edit reservation");
         }
         result.setPayload(reservationRepository.editReservation(h, r));
-        return  result;
+        return result;
     }
-    public  Result<List<Reservation>> cancelReservation(Host h, Reservation r) throws  DataException{
+
+    public Result<List<Reservation>> cancelReservation(Host h, Reservation r) throws DataException {
         Result<List<Reservation>> result = new Result<>();
-        List<Reservation> reservationList = reservationRepository.findByHostId(h.getiD());
-        /*if(!reservationList.remove(r)){ //false if r not existing in repository
-            result.addErrorMessage("Reservation does not exist, cannot delete it. ");
-        }*/
-        /*if(!reservationRepository.cancelReservation(h,r)){
-            result.addErrorMessage("Cannot delete");
-        }*/
+        if (reservationRepository.findByHostId(h.getiD()).contains(r)) {
             result.setPayload(reservationRepository.cancelReservation(h, r));
-
-        return  result;
+        }
+        return result;
 
     }
-    //TODO validation not working on dates
+
     public Result<Reservation> validate(String iD, Reservation r) {
         Result<Reservation> result = new Result<>();
         validateNulls(r);
@@ -104,7 +101,7 @@ public class ReservationService {
         List<Reservation> reservationsWithId = reservationRepository.findByHostId(iD);
         LocalDate startDate = r.getStartDate();
         LocalDate endDate = r.getEndDate();
-        if (startDate.isBefore(LocalDate.now())){
+        if (startDate.isBefore(LocalDate.now())) {
             result.addErrorMessage("Reservations must be made for the future. ");
         }
         if (startDate.isAfter(endDate)) {
