@@ -22,6 +22,11 @@ public class Reservation {
         this.endDate = endDate;
     }
 
+    public Reservation(Host host, Guest guest) {
+        this.host = host;
+        this.guest = guest;
+    }
+
     public String getId() {
         return id;
     }

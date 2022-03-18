@@ -100,14 +100,13 @@ public class ReservationFileRepository implements ReservationRepository {
     public boolean cancelReservation(Host h, Reservation r) throws DataException {
         List<Reservation> all = findByHostId(h.getiD());
         for (int i = 0; i < all.size(); i++){
-            if(all.get(i).getId()==r.getId()){
-                all.remove(Integer.parseInt(r.getId()) - 1);
-                List<Reservation> newList = all.stream().toList();
-                writeAll(newList, h.getiD());
+            if(all.get(i).getId().equals(r.getId())){
+                all.remove(i);
+                writeAll(all, h.getiD());
                 return true;
             }
         }
-        return  false;
+        return true;
     }
 
     /**

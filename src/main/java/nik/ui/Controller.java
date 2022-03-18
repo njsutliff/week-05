@@ -157,6 +157,12 @@ public class Controller {
         Reservation r = new Reservation();
         List<Reservation> reservations = reservationService.getReservationsForGuestAndHost(h, guest);
         view.printReservations(h, reservations);
+        r.setHost(h);
+        r.setId(guest.getGuestId());
+        r = view.cancel(reservations, guest, h);
+        if(reservationService.cancelReservation(h,r)){
+            System.out.println("Deleted reservation");
+        }
         /*
         if (guestService.findAll().contains(guest)) {
             view.displayHeader("Found guest!");

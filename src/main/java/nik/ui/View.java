@@ -145,7 +145,7 @@ public class View {
      * @return Reservation to pass to Controller -> service -> ReservationRepository.add
      */
     public Reservation createReservation(Host h, Guest guestToFind) {
-        Reservation result = new Reservation();
+        Reservation result = new Reservation(h, guestToFind);
         result.setGuest(guestToFind);
         result.setHost(h);
         result.setId("TBD");

@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ed879fd6-23e5-4bf6-a89d-4faeee59145d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/reservations/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/reservations/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/GuestFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/GuestFileRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/HostFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/HostFileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/data/ReservationFileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/data/ReservationFileRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/domain/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/domain/ReservationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/models/Reservation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/models/Reservation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/ui/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/ui/Controller.java" afterDir="false" />
