@@ -120,11 +120,12 @@ public class View {
             io.printf("%s %s %n", h.getCity(), h.getState());
 
             for (Reservation reservation : r) {
-                io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s - Total: $%.2f%n",
+                io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s - Guest name: %s - Total: $%.2f%n",
                         reservation.getId(),
                         reservation.getStartDate(),
                         reservation.getEndDate(),
                         reservation.getGuest().getGuestId(),
+                        reservation.getGuest().getFirstName()+ " " + reservation.getGuest().getLastName(),
                         reservation.getTotal()
                 );
 
@@ -147,7 +148,7 @@ public class View {
         Reservation result = new Reservation();
         result.setGuest(guestToFind);
         result.setHost(h);
-        result.setId(String.valueOf(0));
+        result.setId("TBD");
         LocalDate start = io.readLocalDate("Enter a start date. ", LocalDate.EPOCH);
         result.setStartDate(start);
         LocalDate end = io.readLocalDate("Enter a end date. ", LocalDate.EPOCH);
@@ -170,10 +171,10 @@ public class View {
                     reservation.getId(),
                     reservation.getStartDate(),
                     reservation.getEndDate(),
-                    reservation.getGuestId(),
+                    reservation.getGuest().getGuestId(),
                     total
             );
-            if (io.readRequiredString("Enter 'yes' to confirm").equalsIgnoreCase("yes")) {
+            if (io.readRequiredString("Enter 'yes' to confirm ").equalsIgnoreCase("yes")) {
                 done = true;
             }
         } while (!done);
@@ -213,7 +214,7 @@ public class View {
     }
     public Reservation cancel(List<Reservation> hostReservation, Guest guest, Host host) {
         List<Reservation> editList = hostReservation.stream()
-                .filter(reservation -> reservation.getGuestId() == Integer.parseInt(guest.getGuestId())).toList();
+                .filter(reservation -> reservation.getGuest().getGuestId().equals(guest.getGuestId())).toList();
         printReservations(host, editList);
         Reservation r = new Reservation();
         if(editList.size() > 0) {
@@ -225,7 +226,6 @@ public class View {
         List<Reservation> listToPrint = new ArrayList<>();
         listToPrint.add(r);
         printReservations(host, listToPrint);
-        r.setGuestId(Integer.parseInt(guest.getGuestId()));
         displaySummary(r, r.getTotal());
         return r;
     }
@@ -239,7 +239,7 @@ public class View {
      */
     public Reservation editReservation(List<Reservation> hostReservationsAlreadyExisting, Guest guest, Host host) {
         List<Reservation> editList = hostReservationsAlreadyExisting.stream()
-                .filter(reservation -> reservation.getGuestId() == Integer.parseInt(guest.getGuestId())).toList();
+                .filter(reservation -> reservation.getGuest().getGuestId().equals(guest.getGuestId())).toList();
         printReservations(host, editList);
         Reservation r = editList.get(0);
 
@@ -255,6 +255,9 @@ public class View {
         r.setEndDate(newEnd);
        return displayEdit(r);
     }
+    public int getReservationId(){
+        return io.readInt("Reservation ID");
+    }
     private  Reservation displayEdit( Reservation reservation){
         boolean done = false;
         do {
@@ -263,7 +266,7 @@ public class View {
                     reservation.getId(),
                     reservation.getStartDate(),
                     reservation.getEndDate(),
-                    reservation.getGuestId()
+                    reservation.getGuest().getGuestId()
             );
             if (io.readRequiredString("Enter 'yes' to confirm").equalsIgnoreCase("yes")) {
                 done = true;

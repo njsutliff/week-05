@@ -40,7 +40,7 @@ class GuestFileRepositoryTest {
         test.setId("14");
         test.setStartDate(LocalDate.of(2022, 10, 10));
         test.setEndDate(LocalDate.of(2022, 11, 11));
-        test.setGuestId(1);
+
         test.setTotal(BigDecimal.TEN);
         Reservation r = reservationRepo.createReservation(h.getiD(), test);
         List<Guest> expected = guestRepo.getGuestsForHostFromReservation(h, r);

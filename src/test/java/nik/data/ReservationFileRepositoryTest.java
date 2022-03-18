@@ -56,7 +56,7 @@ class ReservationFileRepositoryTest {
     void findByHostId() {
        List<Reservation> r=  repository.findByHostId("3edda6bc-ab95-49a8-8962-d50b53f84b15");
        assertEquals(1,Integer.parseInt(r.get(0).getId()));
-        System.out.println(r.get(0).getGuestId());
+        System.out.println(r.get(0).getGuest().getGuestId());
     }
 
     @Test
@@ -90,7 +90,7 @@ class ReservationFileRepositoryTest {
         test.setId("14");
         test.setStartDate(LocalDate.of(2022, 10, 10));
         test.setEndDate(LocalDate.of(2022, 11, 11));
-        test.setGuestId(1);
+        //test.setGuestId(1);
         test.setTotal(BigDecimal.TEN);
         Reservation r = repository.createReservation(iD, test);
         assertNotNull(r);

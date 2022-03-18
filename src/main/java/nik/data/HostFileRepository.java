@@ -45,7 +45,12 @@ public class HostFileRepository implements HostRepository {
         return result;
 
     }
-
+    public Host getHostFromId(String Id){
+        return  getAllHosts().stream()
+                .filter(i -> i.getiD().equals(Id))
+                .findFirst()
+                .orElse(null);
+    }
     /**
      *
      * @param stateAbbrev state to find

@@ -2,6 +2,7 @@ package nik.domain;
 
 import nik.data.DataException;
 import nik.data.GuestFileRepository;
+import nik.data.HostFileRepository;
 import nik.data.ReservationFileRepository;
 import nik.models.Guest;
 import nik.models.Host;
@@ -14,13 +15,23 @@ import java.util.List;
 public class ReservationService {
     private final ReservationFileRepository reservationRepository;
     private final GuestFileRepository guestRepository;
-    public ReservationService(ReservationFileRepository reservationRepository, GuestFileRepository guestRepository) {
+    private final HostFileRepository hostRepository;
+
+    public ReservationService(ReservationFileRepository reservationRepository,
+                              GuestFileRepository guestRepository,
+                              HostFileRepository hostRepository) {
         this.reservationRepository = reservationRepository;
         this.guestRepository = guestRepository;
+        this.hostRepository = hostRepository;
     }
 
     public Result<List<Reservation>> findByHostId(String Id) {
         List<Reservation> resultList = reservationRepository.findByHostId(Id);
+        for (Reservation r : resultList){
+            String guestId = r.getGuest().getGuestId();
+            r.setGuest(guestRepository.getGuestFromGuestId(guestId));
+            r.setHost(hostRepository.getHostFromId(Id));
+        }
         Result<List<Reservation>> result = new Result<>();
         if (resultList.size() == 0) {
             result.addErrorMessage("Host has no current reservations");
@@ -60,12 +71,12 @@ public class ReservationService {
     public boolean cancelReservation(Host h, Reservation r) throws DataException {
            return reservationRepository.cancelReservation(h, r);
     }
-    public List<Reservation> getReservationsForGuestAndHost(Host h, Guest guest) {
+    public List<Reservation> getReservationsForGuestAndHost(Host h, Guest guest) throws  DataException{
         List <Reservation> reservationsForHost = reservationRepository.findByHostId(h.getiD());
         List<Reservation> reservationsForGuest = new ArrayList<>();
 
         for (Reservation reservation : reservationsForHost) {
-            String guestId = String.valueOf(reservation.getGuestId());
+            String guestId = reservation.getGuest().getGuestId();
             reservation.setGuest(guestRepository.getGuestFromGuestId(guestId));
             if (reservation.getGuest().getGuestId().equals(guest.getGuestId())) {
                 reservationsForGuest.add(reservation);
@@ -99,9 +110,9 @@ public class ReservationService {
         if (r.getEndDate() == null) {
             result.addErrorMessage("End date is required. ");
         }
-        if ((r.getGuestId() < 0) || r.getGuestId() >= 1001) {
-            result.addErrorMessage("Not a current guest. ");
-        }
+       // if ((r.getGuestId() < 0) || r.getGuestId() >= 1001) {
+           // result.addErrorMessage("Not a current guest. ");
+       //}
         if (r.total == null) {
             result.addErrorMessage("Total amount required. ");
         }

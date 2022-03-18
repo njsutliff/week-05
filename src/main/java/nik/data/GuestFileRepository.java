@@ -53,8 +53,8 @@ public class GuestFileRepository implements GuestRepository {
         List<Reservation> reservation = reservationRepository.findByHostId(h.getiD());
         List<Guest> result = new ArrayList<>();
         for (Reservation res : reservation) {
-            Guest g = getGuestFromGuestId(String.valueOf(res.guestId));
-            g.setGuestId(String.valueOf(res.guestId));
+            Guest g = getGuestFromGuestId(r.getGuest().getGuestId());
+            g.setGuestId(String.valueOf(res.getGuest().guestId));
             result.add(g);
         }
         return result;

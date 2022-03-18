@@ -18,7 +18,7 @@ public class ReservationFileRepositoryDouble implements  ReservationRepository{
         reservation.setId(id);
         reservation.setStartDate(LocalDate.now());
         reservation.setEndDate(LocalDate.now());
-        reservation.setGuestId(1);
+        //reservation.setGuestId(1);
         reservation.setTotal(BigDecimal.ONE);
 
     }

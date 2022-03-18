@@ -20,7 +20,7 @@ public class App {
         GuestFileRepository guestRepository = new GuestFileRepository("./data/guests.csv");
         HostFileRepository hostRepository = new HostFileRepository("./data/hosts.csv");
 
-        ReservationService reservationService = new ReservationService(repository, guestRepository);
+        ReservationService reservationService = new ReservationService(repository, guestRepository, hostRepository);
         HostService hostService = new HostService(hostRepository);
         GuestService guestService = new GuestService(guestRepository);
         Controller controller = new Controller(view, reservationService, hostService, guestService);
