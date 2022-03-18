@@ -8,7 +8,17 @@ public class Host {
     public String iD;
     public String lastName;
     public String email;
+    public String phone;
+    public String address;
+    public String city;
+    public String state;
+    public String postalCode;
+    public BigDecimal standardRate;
+    public BigDecimal weekendRate;
 
+    public  Host(){
+
+    }
     public void setiD(String iD) {
         this.iD = iD;
     }
@@ -49,13 +59,7 @@ public class Host {
         this.weekendRate = weekendRate;
     }
 
-    public String phone;
-    public String address;
-    public String city;
-    public String state;
-    public String postalCode;
-    public BigDecimal standardRate;
-    public BigDecimal weekendRate;
+
 
     @Override
     public String toString() {

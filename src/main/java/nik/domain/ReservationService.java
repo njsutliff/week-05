@@ -1,19 +1,22 @@
 package nik.domain;
 
 import nik.data.DataException;
+import nik.data.GuestFileRepository;
 import nik.data.ReservationFileRepository;
 import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReservationService {
     private final ReservationFileRepository reservationRepository;
-
-    public ReservationService(ReservationFileRepository reservationRepository) {
+    private final GuestFileRepository guestRepository;
+    public ReservationService(ReservationFileRepository reservationRepository, GuestFileRepository guestRepository) {
         this.reservationRepository = reservationRepository;
+        this.guestRepository = guestRepository;
     }
 
     public Result<List<Reservation>> findByHostId(String Id) {
@@ -54,15 +57,22 @@ public class ReservationService {
         return result;
     }
 
-    public Result<List<Reservation>> cancelReservation(Host h, Reservation r) throws DataException {
-        Result<List<Reservation>> result = new Result<>();
-        if (reservationRepository.findByHostId(h.getiD()).contains(r)) {
-            result.setPayload(reservationRepository.cancelReservation(h, r));
-        }
-        return result;
-
+    public boolean cancelReservation(Host h, Reservation r) throws DataException {
+           return reservationRepository.cancelReservation(h, r);
     }
+    public List<Reservation> getReservationsForGuestAndHost(Host h, Guest guest) {
+        List <Reservation> reservationsForHost = reservationRepository.findByHostId(h.getiD());
+        List<Reservation> reservationsForGuest = new ArrayList<>();
 
+        for (Reservation reservation : reservationsForHost) {
+            String guestId = String.valueOf(reservation.getGuestId());
+            reservation.setGuest(guestRepository.getGuestFromGuestId(guestId));
+            if (reservation.getGuest().getGuestId().equals(guest.getGuestId())) {
+                reservationsForGuest.add(reservation);
+            }
+        }
+        return  reservationsForGuest;
+    }
     public Result<Reservation> validate(String iD, Reservation r) {
         Result<Reservation> result = new Result<>();
         validateNulls(r);
@@ -130,6 +140,7 @@ public class ReservationService {
 
         }
     }
+
 
 
 }

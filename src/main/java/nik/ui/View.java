@@ -124,7 +124,7 @@ public class View {
                         reservation.getId(),
                         reservation.getStartDate(),
                         reservation.getEndDate(),
-                        reservation.getGuestId(),
+                        reservation.getGuest().getGuestId(),
                         reservation.getTotal()
                 );
 
@@ -145,13 +145,13 @@ public class View {
      */
     public Reservation createReservation(Host h, Guest guestToFind) {
         Reservation result = new Reservation();
+        result.setGuest(guestToFind);
         result.setHost(h);
         result.setId(String.valueOf(0));
         LocalDate start = io.readLocalDate("Enter a start date. ", LocalDate.EPOCH);
         result.setStartDate(start);
         LocalDate end = io.readLocalDate("Enter a end date. ", LocalDate.EPOCH);
         result.setEndDate(end);
-        result.setGuestId(Integer.parseInt(guestToFind.getGuestId())); // will need to update this in data layer
         if (!result.getEndDate().isBefore(result.getStartDate())) {
             BigDecimal total = calculateTotal(h, result);
             result.setTotal(total);

@@ -70,7 +70,6 @@ public class HostFileRepository implements HostRepository {
                 .orElse(null);
     }
 
-    @Override
     public Host getHostFromLastName(String lastName) {
         return getAllHosts().stream()
                 .filter(i -> i.getEmail().equalsIgnoreCase(lastName))
@@ -86,21 +85,18 @@ public class HostFileRepository implements HostRepository {
      */
     public String getIdFromEmail(String email) {
         List<Host> allHosts = getAllHosts();
-        String iD = "";
-        for (Host h : allHosts) {
-            if (h.email.equals(email)) {
-                iD = h.getiD();
-            }
-        }
-        return iD;
+        return  getAllHosts().stream().filter(host -> host.getEmail().equals(email))
+                .findFirst().orElse(null).getiD();
+
     }
 
     /**
      * Given a host's email, return the Reservation for that email. Uses ReservationFileRepository
      *
-     * @param email host's email
+     * @param //email host's email
      * @return Reservation for that email
-     */
+     **/
+    /*
     public Reservation findReservationByEmail(String email) {
         Reservation res = new Reservation();
         String iD = getIdFromEmail(email);
@@ -111,7 +107,7 @@ public class HostFileRepository implements HostRepository {
             }
         }
         return res;
-    }
+    }*/
 
     private Host deserialize(String[] fields) {
         //id,last_name,email,phone,address,city,state,postal_code,standard_rate,weekend_rate

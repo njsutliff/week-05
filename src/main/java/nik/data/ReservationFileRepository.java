@@ -89,6 +89,7 @@ public class ReservationFileRepository implements ReservationRepository {
         return r;
     }
 
+
     /**
      * Cancels a Reservation r for Host h
      * @param h Host to cancel reservation for
@@ -96,18 +97,23 @@ public class ReservationFileRepository implements ReservationRepository {
      * @return new List not including cancelled reservation
      * @throws DataException
      */
-    public List<Reservation> cancelReservation(Host h, Reservation r) throws DataException {
+    public boolean cancelReservation(Host h, Reservation r) throws DataException {
         List<Reservation> all = findByHostId(h.getiD());
-        all.remove(Integer.parseInt(r.getId()) - 1);
-        List<Reservation> newList = all.stream().toList();
-        writeAll(newList, h.getiD());
-        return newList;
+        for (int i = 0; i < all.size(); i++){
+            if(all.get(i).getId()==r.getId()){
+                all.remove(Integer.parseInt(r.getId()) - 1);
+                List<Reservation> newList = all.stream().toList();
+                writeAll(newList, h.getiD());
+                return true;
+            }
+        }
+        return  false;
     }
 
     /**
      * Writes data to file
      * @param reservationList the list to write to
-     * @param iD the Id for Host to write file for
+     * @param Id the Id for Host to write file for
      * @throws DataException
      */
     private void writeAll(List<Reservation> reservationList, String Id) throws DataException {
@@ -133,7 +139,7 @@ public class ReservationFileRepository implements ReservationRepository {
                 result.getId(),
                 result.getStartDate(),
                 result.getEndDate(),
-                result.getGuestId(),
+                result.getGuest().getGuestId(),
                 result.getTotal());
     }
 
@@ -147,7 +153,9 @@ public class ReservationFileRepository implements ReservationRepository {
         result.setId(fields[0]);
         result.setStartDate(LocalDate.parse(fields[1]));
         result.setEndDate(LocalDate.parse(fields[2]));
-        result.setGuestId(Integer.parseInt(fields[3]));
+        Guest g = new Guest();
+        g.setGuestId(fields[3]);
+        result.setGuest(g);
         result.setTotal(BigDecimal.valueOf(Double.parseDouble(fields[4])));
         return result;
     }

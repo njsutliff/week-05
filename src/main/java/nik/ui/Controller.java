@@ -71,9 +71,8 @@ public class Controller {
         view.printHosts(hosts);
         System.out.printf("%n");
 
-        String email = view.getEmail();
-        String id = hostService.getIdFromEmail(email);
-        Host h = hostService.getHostFromEmail(email).getPayload();
+        Host h = getHost();
+        String id = h.getiD();
         Result<List<Reservation>> result = reservationService.findByHostId(id);
         view.printReservations(h, result.getPayload());
     }
@@ -81,11 +80,10 @@ public class Controller {
     private void makeReservation() throws DataException {
         view.displayHeader("make a Reservation");
         Guest guestToFind = getGuest();
+        Host h = getHost();
         if (guestService.findAll().contains(guestToFind)) {
             System.out.println("Found guest! ");
-            String email = view.getEmail();
-            String iD = hostService.getIdFromEmail(email);
-            Host h = hostService.getHostFromEmail(email).getPayload();
+            String iD = h.getiD();
             System.out.println("Upcoming reservations for host ");
             view.printReservations(h, reservationService.getFutureReservations(h));
             Reservation r = view.createReservation(h, guestToFind);
@@ -122,7 +120,7 @@ public class Controller {
         if (!hostService.getHostFromEmail(email).isSuccess()) {
             view.displayStatus(false, "Failed to find host");
         } else {
-            Host h = hostService.getHostFromEmail(email).getPayload();
+            Host h = getHost();
             Result<List<Reservation>> result = reservationService.findByHostId(h.getiD());
             if (!result.isSuccess()) {
                 view.displayStatus(false, "Host does not have any current reservations to edit. ");
@@ -145,6 +143,11 @@ public class Controller {
     private void cancelReservation() throws DataException {
         view.displayHeader("Cancel a Reservation");
         Guest guest = getGuest();
+        Host h = getHost();
+        Reservation r = new Reservation();
+        List<Reservation> reservations = reservationService.getReservationsForGuestAndHost(h, guest);
+        view.printReservations(h, reservations);
+        /*
         if (guestService.findAll().contains(guest)) {
             view.displayHeader("Found guest!");
         } else {
@@ -154,7 +157,7 @@ public class Controller {
         if (!hostService.getHostFromEmail(email).isSuccess()) {
             view.displayStatus(false, "Failed to find host");
         } else {
-            Host h = hostService.getHostFromEmail(email).getPayload();
+            Host h = getHost();
             Result<List<Reservation>> result = reservationService.findByHostId(h.getiD());
             if (result.isSuccess()) {
                 List<Reservation> hostReservation = reservationService
@@ -172,7 +175,7 @@ public class Controller {
             } else {
                 view.displayStatus(false, "Failed to find reservation ");
             }
-        }
+        }*/
     }
 
     private Guest getGuest() {

@@ -17,10 +17,11 @@ public class App {
         ConsoleIO io = new ConsoleIO();
         View view = new View(io);
         ReservationFileRepository repository = new ReservationFileRepository("./data/reservations");
-        ReservationService reservationService = new ReservationService(repository);
-        HostFileRepository hostRepository = new HostFileRepository("./data/hosts.csv");
-        HostService hostService = new HostService(hostRepository);
         GuestFileRepository guestRepository = new GuestFileRepository("./data/guests.csv");
+        HostFileRepository hostRepository = new HostFileRepository("./data/hosts.csv");
+
+        ReservationService reservationService = new ReservationService(repository, guestRepository);
+        HostService hostService = new HostService(hostRepository);
         GuestService guestService = new GuestService(guestRepository);
         Controller controller = new Controller(view, reservationService, hostService, guestService);
 

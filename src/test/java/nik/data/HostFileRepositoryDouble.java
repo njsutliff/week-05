@@ -16,11 +16,6 @@ public class HostFileRepositoryDouble implements HostRepository{
     }
 
     @Override
-    public Reservation findReservationByEmail(String email) {
-        return null;
-    }
-
-    @Override
     public List<Host> getAllHosts() {
         return null;
     }
@@ -30,7 +25,7 @@ public class HostFileRepositoryDouble implements HostRepository{
         return null;
     }
 
-    @Override
+
     public Host getHostFromLastName(String lastName) {
         return null;
     }
