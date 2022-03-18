@@ -152,16 +152,23 @@ public class Controller {
 
     private void cancelReservation() throws DataException {
         view.displayHeader("Cancel a Reservation");
-        Guest guest = getGuest();
-        Host h = getHost();
+        Guest guest = getGuest();//TODO working except for validation of guest using guestservice
+        Host h = getHost();//TODO working except for validation of host using hostservice
         Reservation r = new Reservation();
-        List<Reservation> reservations = reservationService.getReservationsForGuestAndHost(h, guest);
-        view.printReservations(h, reservations);
-        r.setHost(h);
-        r.setId(guest.getGuestId());
-        r = view.cancel(reservations, guest, h);
-        if(reservationService.cancelReservation(h,r)){
-            System.out.println("Deleted reservation");
+        Result<Guest> guestResult = guestService.getGuestByLastName(guest.getLastName());
+        if (guestResult.isSuccess()) {
+            List<Reservation> reservations = reservationService.getReservationsForGuestAndHost(h, guest);
+            view.printReservations(h, reservations);
+            r.setHost(h);
+            r.setId(guest.getGuestId());
+            r = view.cancel(reservations, guest, h);
+            if (reservationService.cancelReservation(h, r)) {
+                System.out.println("Deleted reservation");
+            } else {
+                System.out.println("Could not delete reservation");
+            }
+        }else {
+            guestResult.getErrorMessages().forEach(System.out::println);
         }
         /*
         if (guestService.findAll().contains(guest)) {
@@ -196,7 +203,7 @@ public class Controller {
 
     private Guest getGuest() {
         String lastName = view.getLastName();
-        return guestService.getGuestByLastName(lastName);
+        return guestService.getGuestByLastName(lastName).getPayload();
     }
 
     private Host getHost() {

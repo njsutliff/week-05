@@ -15,12 +15,13 @@ public class GuestService {
         this.guestRepository = guestRepository;
     }
 
-    public Guest getGuestByLastName(String lastName) {
-        Result<Guest> result = new Result<>();
-        if (guestRepository.getGuestByLastName(lastName) == null) {
-            result.addErrorMessage("No guest found.");
+    public Result<Guest> getGuestByLastName(String lastName) {
+        Result<Guest> result = validateLastName(lastName);
+        if (!result.isSuccess()){
+            return result;
         }
-        return guestRepository.getGuestByLastName(lastName);
+        result.setPayload(guestRepository.getGuestByLastName(lastName));
+        return result;
 
     }
 
@@ -30,5 +31,12 @@ public class GuestService {
 
     public ArrayList<Guest> findAll() {
         return guestRepository.findAll();
+    }
+    public Result<Guest> validateLastName(String lastName){
+        Result<Guest> result = new Result<>();
+        if (guestRepository.getGuestByLastName(lastName) == null) {
+            result.addErrorMessage("No guest found.");
+        }
+        return result;
     }
 }

@@ -106,7 +106,7 @@ public class ReservationFileRepository implements ReservationRepository {
                 return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**

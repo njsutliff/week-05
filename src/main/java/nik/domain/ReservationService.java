@@ -69,8 +69,7 @@ public class ReservationService {
     }
 
     public boolean cancelReservation(Host h, Reservation r) throws DataException {
-            reservationRepository.cancelReservation(h, r);
-            return true;
+            return reservationRepository.cancelReservation(h, r);
     }
     public List<Reservation> getReservationsForGuestAndHost(Host h, Guest guest) throws  DataException{
         List <Reservation> reservationsForHost = reservationRepository.findByHostId(h.getiD());
