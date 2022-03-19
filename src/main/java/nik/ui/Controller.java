@@ -70,11 +70,14 @@ public class Controller {
         view.displayHeader("Hosts for state " + statePrefix);
         view.printHosts(hosts);
         System.out.printf("%n");
-
         Host h = getHost();
-        String id = h.getiD();
-        Result<List<Reservation>> result = reservationService.findByHostId(id);
-        view.printReservations(h, result.getPayload());
+        if(h!=null) {
+            List<Reservation> result = reservationService.findByHostId(h.getiD());
+            view.printReservations(h, result);
+        }else {
+            view.displayStatus(false, "Host not found. ");
+        }
+
     }
 
     private void makeReservation() throws DataException {
@@ -82,13 +85,13 @@ public class Controller {
         Guest guestToFind = getGuest();
         Host h = getHost();
 
-        List<Reservation> reservationList = reservationService.findByHostId(h.getiD()).getPayload();
+        List<Reservation> reservationList = reservationService.findByHostId(h.getiD());
         view.printReservations(h, reservationList);
         if (guestService.findAll().contains(guestToFind)) {
             System.out.println("Found guest! ");
             String iD = h.getiD();
             System.out.println("reservations for host ");
-            view.printReservations(h, reservationService.findByHostId(iD).getPayload());
+            view.printReservations(h, reservationService.findByHostId(iD));
 
              Reservation r = view.createReservation(h, guestToFind);
             Result<Reservation> res = reservationService.createReservation(iD, r);
@@ -208,6 +211,6 @@ public class Controller {
 
     private Host getHost() {
         String email = view.getEmail();
-        return hostService.getHostFromEmail(email).getPayload();
+        return hostService.getHostFromEmail(email);
     }
 }

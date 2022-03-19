@@ -19,27 +19,14 @@ public class HostService {
     }
 
     public String getIdFromEmail(String email) {
-        List<Host> hostList = hostRepository.getAllHosts();
-        for (Host h : hostList) {
-            if (h.getEmail().equals(email)) {
                 return hostRepository.getIdFromEmail(email);
-            }
-        }
-        return "Email not found";
 
     }
     public List<Host> getHostsFromState(String stateAbbrev) {
         return hostRepository.getHostsFromState(stateAbbrev);
     }
 
-    public Result<Host> getHostFromEmail(String email) {
-        Result<Host> result = new Result<>();
-        if (getIdFromEmail(email).equalsIgnoreCase("Email not found")) {
-            result.addErrorMessage("Host not found! ");
-        }
-        if (hostRepository.getHostFromEmail(email) != null) {
-            result.setPayload(hostRepository.getHostFromEmail(email));
-        }
-        return result;
+    public Host getHostFromEmail(String email) {
+    return hostRepository.getHostFromEmail(email);
     }
 }

@@ -113,9 +113,9 @@ public class View {
             return;
         }
         if (r.size() == 0) {
-            System.out.println("Host has no reservations!");
+            displayStatus(false,"Host has no reservations!");
         } else {
-            //r.sort(Comparator.comparing(Reservation::getEndDate).reversed());//TODO sorting error
+            r.sort(Comparator.comparing(Reservation::getEndDate).reversed());//TODO sorting error
             io.printf("Host:  %s Email: %s %n", h.getLastName(), h.getEmail());
             io.printf("%s %s %n", h.getCity(), h.getState());
 

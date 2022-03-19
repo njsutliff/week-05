@@ -25,24 +25,23 @@ public class ReservationService {
         this.hostRepository = hostRepository;
     }
 
-    public Result<List<Reservation>> findByHostId(String Id) {
+    public List<Reservation> findByHostId(String Id) {
         List<Reservation> resultList = reservationRepository.findByHostId(Id);
         for (Reservation r : resultList){
             String guestId = r.getGuest().getGuestId();
             r.setGuest(guestRepository.getGuestFromGuestId(guestId));
             r.setHost(hostRepository.getHostFromId(Id));
         }
-        Result<List<Reservation>> result = new Result<>();
-        if (resultList.size() == 0) {
-            result.addErrorMessage("Host has no current reservations");
-            return result;
-        }
-        if (!result.isSuccess()) {
-            result.addErrorMessage("Host not found");
-            return result;
-        }
-        result.setPayload(resultList);
-        return result;
+       //if (resultList.size() == 0) {
+       //    result.addErrorMessage("Host has no current reservations");
+       //    return result;
+       //}
+       //if (!result.isSuccess()) {
+       //    result.addErrorMessage("Host not found");
+       //    return result;
+       //}
+       //result.setPayload(resultList);
+        return resultList;
     }
 
     public List<Reservation> getFutureReservations(Host h) {
