@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ed879fd6-23e5-4bf6-a89d-4faeee59145d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nik/domain/HostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/domain/HostService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nik/domain/ReservationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/domain/ReservationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/nik/ui/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/ui/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/ui/MainMenuOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/ui/MainMenuOption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nik/ui/View.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nik/ui/View.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

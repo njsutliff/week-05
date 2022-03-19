@@ -139,12 +139,12 @@ public class ReservationService {
                 return;
             }
             if (startDate.isBefore(existingStartDate) && endDate.isAfter(existingStartDate)) {
-                result.addErrorMessage("Reservation is during an existing reservation. ");
+                result.addErrorMessage("Reservation cannot overlap an existing reservation. ");
                 return;
             }
 
             if (startDate.isAfter(existingStartDate) && startDate.isBefore(existingEndDate)) {
-                result.addErrorMessage("Reservation is during an existing reservation. ");
+                result.addErrorMessage("Reservation cannot overlap an existing reservation. ");
                 return;
             }
 

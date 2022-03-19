@@ -71,37 +71,41 @@ public class Controller {
         view.printHosts(hosts);
         System.out.printf("%n");
         Host h = getHost();
-        if(h!=null) {
+        if (h != null) {
             List<Reservation> result = reservationService.findByHostId(h.getiD());
             view.printReservations(h, result);
-        }else {
+        } else {
             view.displayStatus(false, "Host not found. ");
         }
 
     }
 
     private void makeReservation() throws DataException {
-        view.displayHeader("make a Reservation");
+        view.displayHeader("Add a Reservation");
         Guest guestToFind = getGuest();
-        Host h = getHost();
-
-        List<Reservation> reservationList = reservationService.findByHostId(h.getiD());
-        view.printReservations(h, reservationList);
         if (guestService.findAll().contains(guestToFind)) {
             System.out.println("Found guest! ");
-            String iD = h.getiD();
-            System.out.println("reservations for host ");
-            view.printReservations(h, reservationService.findByHostId(iD));
+            Host h = getHost();
+            if (h != null) {
+                //List<Reservation> reservationList = reservationService.findByHostId(h.getiD());
+                //view.printReservations(h, reservationList);
+                String iD = h.getiD();
+                System.out.println("Upcoming reservations for host ");
+                List<Reservation> currentReservations = reservationService.getFutureReservations(h);
+                view.viewReservations(h, currentReservations);
 
-             Reservation r = view.createReservation(h, guestToFind);
-            Result<Reservation> res = reservationService.createReservation(iD, r);
-            if (res.isSuccess()) {
-                view.displayHeader("Created reservation");
+                Reservation r = view.createReservation(h, guestToFind);
+                Result<Reservation> res = reservationService.createReservation(iD, r);
+                if (res.isSuccess()) {
+                    view.displayHeader("Created reservation");
+                } else {
+                    view.displayHeader(res.getErrorMessages().toString());
+                }
             } else {
-                view.displayHeader(res.getErrorMessages().toString());
+                view.displayStatus(false, "Did not find Host! ");
             }
         } else {
-            System.out.println("Did Not Find Guest! ");
+            view.displayStatus(false, "Did Not Find Guest! ");
         }
 
     }
@@ -124,33 +128,33 @@ public class Controller {
 
 
 /**
-        if (guestService.findAll().contains(guest)) {
-            view.displayHeader("Found guest!");
-        } else {
-            view.displayStatus(false, "Failed to find guest");
-        }
-        // enter email of host
-        String email = view.getEmail();
-        if (!hostService.getHostFromEmail(email).isSuccess()) {
-            view.displayStatus(false, "Failed to find host");
-        } else {
-            Result<List<Reservation>> result = reservationService.findByHostId(h.getiD());
-            if (!result.isSuccess()) {
-                view.displayStatus(false, "Host does not have any current reservations to edit. ");
-            }
-            if (result.isSuccess()) {// Host has a reservation, now call view.editReservation to get reservation to
-                //pass to service
-                List<Reservation> hostReservation = reservationService
-                        .findByHostId(hostService.getIdFromEmail(email)).getPayload();
-                Reservation r = view.editReservation(hostReservation, guest, h);
-                Result<Reservation> reservationResult = reservationService.editReservation(h, r);
-                if (reservationResult.isSuccess()) {
-                    view.displayHeader("Reservation" + r.getId() + "edited successfully");
-                } else {
-                    System.out.println(reservationResult.getErrorMessages());
-                }
-            }
-        }**/
+ if (guestService.findAll().contains(guest)) {
+ view.displayHeader("Found guest!");
+ } else {
+ view.displayStatus(false, "Failed to find guest");
+ }
+ // enter email of host
+ String email = view.getEmail();
+ if (!hostService.getHostFromEmail(email).isSuccess()) {
+ view.displayStatus(false, "Failed to find host");
+ } else {
+ Result<List<Reservation>> result = reservationService.findByHostId(h.getiD());
+ if (!result.isSuccess()) {
+ view.displayStatus(false, "Host does not have any current reservations to edit. ");
+ }
+ if (result.isSuccess()) {// Host has a reservation, now call view.editReservation to get reservation to
+ //pass to service
+ List<Reservation> hostReservation = reservationService
+ .findByHostId(hostService.getIdFromEmail(email)).getPayload();
+ Reservation r = view.editReservation(hostReservation, guest, h);
+ Result<Reservation> reservationResult = reservationService.editReservation(h, r);
+ if (reservationResult.isSuccess()) {
+ view.displayHeader("Reservation" + r.getId() + "edited successfully");
+ } else {
+ System.out.println(reservationResult.getErrorMessages());
+ }
+ }
+ }**/
     }
 
     private void cancelReservation() throws DataException {
@@ -170,7 +174,7 @@ public class Controller {
             } else {
                 System.out.println("Could not delete reservation");
             }
-        }else {
+        } else {
             guestResult.getErrorMessages().forEach(System.out::println);
         }
         /*

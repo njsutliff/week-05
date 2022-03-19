@@ -3,7 +3,7 @@ package nik.ui;
 public enum MainMenuOption {
 
     VIEW_RESERVATIONS(1, "View Reservations for Host", false),
-    MAKE_RESERVATION(2,"Make a Reservation",false),
+    MAKE_RESERVATION(2,"Add a Reservation",false),
     EDIT_RESERVATION(3, "Edit a Reservation", false),
     CANCEL_RESERVATION(4, "Cancel a Reservation", false),
     EXIT(5, "Exit", false);

@@ -3,7 +3,6 @@ package nik.ui;
 import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
-import nik.data.ReservationFileRepository;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
@@ -12,8 +11,6 @@ import java.time.Period;
 import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.zip.GZIPInputStream;
 
 public class View {
 
@@ -130,6 +127,28 @@ public class View {
                 );
 
             }
+        }
+    }
+    /**
+     * Prints reservations, not sorted
+     * (as that would be useful to the administrator)
+     *
+     * @param h host passed in
+     * @param r list of reservations to sort and display
+     */
+    public  void viewReservations(Host h, List<Reservation> r){
+        io.printf("Host:  %s Email: %s %n", h.getLastName(), h.getEmail());
+        io.printf("%s %s %n", h.getCity(), h.getState());
+
+        for (Reservation reservation : r) {
+            io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s - Guest name: %s - Total: $%.2f%n",
+                    reservation.getId(),
+                    reservation.getStartDate(),
+                    reservation.getEndDate(),
+                    reservation.getGuest().getGuestId(),
+                    reservation.getGuest().getFirstName()+ " " + reservation.getGuest().getLastName(),
+                    reservation.getTotal()
+            );
         }
     }
 
