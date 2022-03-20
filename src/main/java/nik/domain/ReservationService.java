@@ -59,7 +59,10 @@ public class ReservationService {
     }
 
     public Result<Reservation> editReservation(Host h, Reservation r) throws DataException {
-        Result<Reservation> result = new Result<>();
+        Result<Reservation> result = validate(h.getiD(), r);
+        if(!result.isSuccess()){
+            return  result;
+        }
         if (reservationRepository.findByHostId(h.getiD()).contains(r)) {
             result.addErrorMessage("Cannot edit reservation");
         }

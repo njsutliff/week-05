@@ -259,16 +259,20 @@ public class View {
     public Reservation editReservation(List<Reservation> hostReservationsAlreadyExisting, Guest guest, Host host) {
         List<Reservation> editList = hostReservationsAlreadyExisting.stream()
                 .filter(reservation -> reservation.getGuest().getGuestId().equals(guest.getGuestId())).toList();
-        printReservations(host, editList);
+        viewReservations(host, editList);
         Reservation r = editList.get(0);
 
         LocalDate newStart = io.readLocalDate("Enter a new start date: ", r.startDate);
         if (newStart.equals(r.getStartDate())){
-            io.readEnter("Enter to keep the previous value");
+        enterToContinue();
+        r.setStartDate(newStart);
         }
         LocalDate newEnd = io.readLocalDate("Enter a new end date: ", r.endDate);
         if (newEnd.equals(r.getEndDate())){
             io.readEnter("Enter to keep the previous value");
+            enterToContinue();
+            r.setEndDate(newEnd);
+
         }
         r.setStartDate(newStart);
         r.setEndDate(newEnd);

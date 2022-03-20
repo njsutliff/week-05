@@ -113,19 +113,33 @@ public class Controller {
     private void editReservation() throws DataException {
         view.displayHeader("Edit a reservation");
         Guest guest = getGuest();
-        Host h = getHost();
-        Reservation r = new Reservation();
-        List<Reservation> reservations = reservationService.getReservationsForGuestAndHost(h, guest);
-        view.printReservations(h, reservations);
+        if (guest == null) {
+            view.displayStatus(false, "Guest not found");
+        } else {
+            System.out.println("Found guest! ");
+            Host h = getHost();
+            if (h != null) {
+                System.out.println("Found host! ");
 
-        int rId = view.getReservationId();
-        System.out.println("Editing reservation " + rId);
-        r = view.editReservation(reservations, guest, h);
-        Result<Reservation> reservationResult = reservationService.editReservation(h, r);
-        if (reservationResult.isSuccess()) {
-            view.displayHeader("Reservation" + r.getId() + "edited successfully");
+                Reservation r = new Reservation();
+                List<Reservation> reservations = reservationService.getReservationsForGuestAndHost(h, guest);
+                view.printReservations(h, reservations);
+                if (reservations.size() != 0) {
+                    int rId = view.getReservationId();
+                    System.out.println("Editing reservation " + rId);
+                    r = view.editReservation(reservations, guest, h);
+                    Result<Reservation> reservationResult = reservationService.editReservation(h, r);
+                    if (reservationResult.isSuccess()) {
+                        view.displayHeader("Reservation " + rId + " edited successfully");
+                    }else {
+                        view.displayStatus(false, reservationResult.getErrorMessages());
+                    }
+                }
+            }
+            else {
+                view.displayStatus(false, "Host not found.");
+            }
         }
-
 
 /**
  if (guestService.findAll().contains(guest)) {
