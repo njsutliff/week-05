@@ -27,7 +27,7 @@ public class ReservationService {
 
     public List<Reservation> findByHostId(String Id) {
         List<Reservation> resultList = reservationRepository.findByHostId(Id);
-        for (Reservation r : resultList){
+        for (Reservation r : resultList) {
             String guestId = r.getGuest().getGuestId();
             r.setGuest(guestRepository.getGuestFromGuestId(guestId));
             r.setHost(hostRepository.getHostFromId(Id));
@@ -52,8 +52,8 @@ public class ReservationService {
 
     public Result<Reservation> editReservation(Host h, Reservation r) throws DataException {
         Result<Reservation> result = validate(h.getiD(), r);
-        if(!result.isSuccess()){
-            return  result;
+        if (!result.isSuccess()) {
+            return result;
         }
         if (reservationRepository.findByHostId(h.getiD()).contains(r)) {
             result.addErrorMessage("Cannot edit reservation");
@@ -63,10 +63,17 @@ public class ReservationService {
     }
 
     public boolean cancelReservation(Host h, Reservation r) throws DataException {
+        Result<Reservation> reservationResult = new Result<>();
+        validate(h.getiD(), r);
+        if (!reservationResult.isSuccess()){
+            return false;
+        }else {
             return reservationRepository.cancelReservation(h, r);
+        }
     }
-    public List<Reservation> getReservationsForGuestAndHost(Host h, Guest guest) throws  DataException{
-        List <Reservation> reservationsForHost = reservationRepository.findByHostId(h.getiD());
+
+    public List<Reservation> getReservationsForGuestAndHost(Host h, Guest guest) throws DataException {
+        List<Reservation> reservationsForHost = reservationRepository.findByHostId(h.getiD());
         List<Reservation> reservationsForGuest = new ArrayList<>();
 
         for (Reservation reservation : reservationsForHost) {
@@ -76,8 +83,9 @@ public class ReservationService {
                 reservationsForGuest.add(reservation);
             }
         }
-        return  reservationsForGuest;
+        return reservationsForGuest;
     }
+
     public Result<Reservation> validate(String iD, Reservation r) {
         Result<Reservation> result = new Result<>();
         validateNulls(r);
@@ -104,9 +112,9 @@ public class ReservationService {
         if (r.getEndDate() == null) {
             result.addErrorMessage("End date is required. ");
         }
-       // if ((r.getGuestId() < 0) || r.getGuestId() >= 1001) {
-           // result.addErrorMessage("Not a current guest. ");
-       //}
+        // if ((r.getGuestId() < 0) || r.getGuestId() >= 1001) {
+        // result.addErrorMessage("Not a current guest. ");
+        //}
         if (r.total == null) {
             result.addErrorMessage("Total amount required. ");
         }
@@ -145,7 +153,6 @@ public class ReservationService {
 
         }
     }
-
 
 
 }

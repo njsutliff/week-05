@@ -34,6 +34,9 @@ public class GuestService {
     }
     public Result<Guest> validateLastName(String lastName){
         Result<Guest> result = new Result<>();
+        if(lastName == null){
+            result.addErrorMessage("Invalid guest, no guest found.");
+        }
         if (guestRepository.getGuestByLastName(lastName) == null) {
             result.addErrorMessage("No guest found.");
         }

@@ -2,6 +2,7 @@ package nik.domain;
 
 import nik.data.HostFileRepository;
 import nik.data.ReservationFileRepository;
+import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
 
@@ -19,14 +20,32 @@ public class HostService {
     }
 
     public String getIdFromEmail(String email) {
-                return hostRepository.getIdFromEmail(email);
+        return hostRepository.getIdFromEmail(email);
 
     }
+
     public List<Host> getHostsFromState(String stateAbbrev) {
         return hostRepository.getHostsFromState(stateAbbrev);
     }
 
-    public Host getHostFromEmail(String email) {
-    return hostRepository.getHostFromEmail(email);
+    public Result<Host> getHostFromEmail(String email) {
+        Result<Host> hostResult = validate(email);
+        if (!hostResult.isSuccess()) {
+            return hostResult;
+        }
+        hostResult.setPayload(hostRepository.getHostFromEmail(email));
+        return hostResult;
+    }
+
+    private Result<Host> validate(String email) {
+        Result<Host> result = new Result<>();
+
+        if (email == null){
+            result.addErrorMessage("Host not found");
+        }
+         if (hostRepository.getHostFromEmail(email) == null) {
+            result.addErrorMessage("Host has no reservations.");
+        }
+        return result;
     }
 }

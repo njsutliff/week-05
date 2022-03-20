@@ -131,12 +131,11 @@ public class Controller {
                     Result<Reservation> reservationResult = reservationService.editReservation(h, r);
                     if (reservationResult.isSuccess()) {
                         view.displayHeader("Reservation " + rId + " edited successfully");
-                    }else {
+                    } else {
                         view.displayStatus(false, reservationResult.getErrorMessages());
                     }
                 }
-            }
-            else {
+            } else {
                 view.displayStatus(false, "Host not found.");
             }
         }
@@ -174,12 +173,19 @@ public class Controller {
     private void cancelReservation() throws DataException {
         view.displayHeader("Cancel a Reservation");
         Guest guest = getGuest();//TODO working except for validation of guest using guestservice
+        String guestLastName = "";
+        if (guest == null) {
+            view.displayStatus(false, "Guest not found");
+        }
         Host h = getHost();//TODO working except for validation of host using hostservice
-        Reservation r = new Reservation();
-        Result<Guest> guestResult = guestService.getGuestByLastName(guest.getLastName());
-        if (guestResult.isSuccess()) {
+        String hId = null;
+        if (h != null) {
+            hId = h.getiD();
+        }
+        Result<Host> hostResult = hostService.getHostFromEmail(hId);
+        if (hostResult.isSuccess()) {
+            Reservation r = new Reservation();
             List<Reservation> reservations = reservationService.getReservationsForGuestAndHost(h, guest);
-            view.printReservations(h, reservations);
             r.setHost(h);
             r.setId(guest.getGuestId());
             r = view.cancel(reservations, guest, h);
@@ -189,8 +195,10 @@ public class Controller {
                 System.out.println("Could not delete reservation");
             }
         } else {
-            guestResult.getErrorMessages().forEach(System.out::println);
+            hostResult.getErrorMessages().forEach(System.out::println);
         }
+    }
+
         /*
         if (guestService.findAll().contains(guest)) {
             view.displayHeader("Found guest!");
@@ -220,7 +228,7 @@ public class Controller {
                 view.displayStatus(false, "Failed to find reservation ");
             }
         }*/
-    }
+
 
     private Guest getGuest() {
         String lastName = view.getLastName();
@@ -229,6 +237,6 @@ public class Controller {
 
     private Host getHost() {
         String email = view.getEmail();
-        return hostService.getHostFromEmail(email);
+        return hostService.getHostFromEmail(email).getPayload();
     }
 }

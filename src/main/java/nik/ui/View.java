@@ -234,7 +234,7 @@ public class View {
     public Reservation cancel(List<Reservation> hostReservation, Guest guest, Host host) {
         List<Reservation> editList = hostReservation.stream()
                 .filter(reservation -> reservation.getGuest().getGuestId().equals(guest.getGuestId())).toList();
-        printReservations(host, editList);
+        viewReservations(host, editList);
         Reservation r = new Reservation();
         if(editList.size() > 0) {
              r = editList.get(0);
