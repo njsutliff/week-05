@@ -101,14 +101,18 @@ public class ConsoleIO {
 
     public LocalDate readLocalDate(String prompt, LocalDate old) {
         while (true) {
-            String input = readRequiredString(prompt);
-            if(LocalDate.parse(input, formatter).equals(old)){
-                return LocalDate.parse(input, formatter);
-            }
             try {
-                return LocalDate.parse(input, formatter);
-            } catch (DateTimeParseException ex) {
-                println(INVALID_DATE);
+                String input = readRequiredString(prompt);
+                if (LocalDate.parse(input, formatter).equals(old)) {
+                    return LocalDate.parse(input, formatter);
+                }
+                try {
+                    return LocalDate.parse(input, formatter);
+                } catch (DateTimeParseException ex) {
+                    println(INVALID_DATE);
+                }
+            } catch (DateTimeParseException e) {
+                println("Invalid date");
             }
         }
     }

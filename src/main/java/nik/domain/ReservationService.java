@@ -32,15 +32,7 @@ public class ReservationService {
             r.setGuest(guestRepository.getGuestFromGuestId(guestId));
             r.setHost(hostRepository.getHostFromId(Id));
         }
-       //if (resultList.size() == 0) {
-       //    result.addErrorMessage("Host has no current reservations");
-       //    return result;
-       //}
-       //if (!result.isSuccess()) {
-       //    result.addErrorMessage("Host not found");
-       //    return result;
-       //}
-       //result.setPayload(resultList);
+
         return resultList;
     }
 

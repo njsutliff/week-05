@@ -11,6 +11,7 @@ import nik.models.Host;
 import nik.models.Reservation;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,13 +88,13 @@ public class Controller {
             System.out.println("Found guest! ");
             Host h = getHost();
             if (h != null) {
-                //List<Reservation> reservationList = reservationService.findByHostId(h.getiD());
-                //view.printReservations(h, reservationList);
                 String iD = h.getiD();
                 System.out.println("Upcoming reservations for host ");
-                List<Reservation> currentReservations = reservationService.getFutureReservations(h);
-                view.viewReservations(h, currentReservations);
-
+                List<Reservation> reservationList = reservationService.findByHostId(h.getiD());
+                List<Reservation> future =
+                        reservationList.stream().filter(reservation -> reservation.getStartDate()
+                                .isAfter(LocalDate.now())).toList();
+                view.viewReservations(h, future);
                 Reservation r = view.createReservation(h, guestToFind);
                 Result<Reservation> res = reservationService.createReservation(iD, r);
                 if (res.isSuccess()) {
@@ -107,7 +108,6 @@ public class Controller {
         } else {
             view.displayStatus(false, "Did Not Find Guest! ");
         }
-
     }
 
     private void editReservation() throws DataException {
