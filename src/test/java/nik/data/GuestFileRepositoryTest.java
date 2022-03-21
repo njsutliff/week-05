@@ -33,20 +33,5 @@ class GuestFileRepositoryTest {
         Guest kike = guestRepo.getGuestByLastName("Sutliff");
         assertNull(kike);
     }
-    @Test
-        void TestGettingGuestsForFirstResAndHost() throws DataException {
-        Host h = hostRepo.getHostFromEmail("kdeclerkdc@sitemeter.com");
-        Reservation test = new Reservation();
-        test.setId("14");
-        test.setStartDate(LocalDate.of(2022, 10, 10));
-        test.setEndDate(LocalDate.of(2022, 11, 11));
 
-        test.setTotal(BigDecimal.TEN);
-        Reservation r = reservationRepo.createReservation(h.getiD(), test);
-        List<Guest> expected = guestRepo.getGuestsForHostFromReservation(h, r);
-        System.out.println(expected.get(0).firstName);
-        System.out.println(expected.get(0).lastName);
-
-        assertTrue(expected.size()!=0);
-    }
 }
