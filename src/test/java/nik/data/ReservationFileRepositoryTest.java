@@ -1,5 +1,6 @@
 package nik.data;
 
+import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
 import org.junit.jupiter.api.Test;
@@ -92,6 +93,9 @@ class ReservationFileRepositoryTest {
         test.setEndDate(LocalDate.of(2022, 11, 11));
         //test.setGuestId(1);
         test.setTotal(BigDecimal.TEN);
+        Guest testGuest = new Guest();
+        testGuest.setGuestId("test");
+        test.setGuest(testGuest);
         Reservation r = repository.createReservation(iD, test);
         assertNotNull(r);
     }

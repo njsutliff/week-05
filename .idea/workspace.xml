@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ed879fd6-23e5-4bf6-a89d-4faeee59145d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/test/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/test/3edda6bc-ab95-49a8-8962-d50b53f84b15.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/nik/data/ReservationFileRepositoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/nik/data/ReservationFileRepositoryTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,10 +90,25 @@
       <recent name="nik.ui" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="JUnit.ReservationFileRepositoryTest.createReservationSuccess">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="App" />
       <module name="week-05" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GuestFileRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="week-05" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="nik.data.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="nik.data" />
+      <option name="MAIN_CLASS_NAME" value="nik.data.GuestFileRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -111,38 +128,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HostFileRepositoryTest.findReservationGivenEmail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="week-05" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="nik.data.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="nik.data" />
-      <option name="MAIN_CLASS_NAME" value="nik.data.HostFileRepositoryTest" />
-      <option name="METHOD_NAME" value="findReservationGivenEmail" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="HostFileRepositoryTest.testFindIdByEmail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="week-05" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="nik.data.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="nik.data" />
-      <option name="MAIN_CLASS_NAME" value="nik.data.HostFileRepositoryTest" />
-      <option name="METHOD_NAME" value="testFindIdByEmail" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ReservationFileRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="week-05" />
       <extension name="coverage">
@@ -158,13 +143,29 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ReservationFileRepositoryTest.createReservationSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="week-05" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="nik.data.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="nik.data" />
+      <option name="MAIN_CLASS_NAME" value="nik.data.ReservationFileRepositoryTest" />
+      <option name="METHOD_NAME" value="createReservationSuccess" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.App" />
-        <item itemvalue="JUnit.HostFileRepositoryTest.findReservationGivenEmail" />
-        <item itemvalue="JUnit.HostFileRepositoryTest.testFindIdByEmail" />
-        <item itemvalue="JUnit.HostFileRepositoryTest" />
+        <item itemvalue="JUnit.ReservationFileRepositoryTest.createReservationSuccess" />
         <item itemvalue="JUnit.ReservationFileRepositoryTest" />
+        <item itemvalue="JUnit.HostFileRepositoryTest" />
+        <item itemvalue="JUnit.GuestFileRepositoryTest" />
+        <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
   </component>
@@ -195,5 +196,10 @@
       <path value="$PROJECT_DIR$/.." />
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/week_05$HostFileRepositoryTest.ic" NAME="HostFileRepositoryTest Coverage Results" MODIFIED="1647893647232" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>nik.data.*</FILTER>
+    </SUITE>
   </component>
 </project>
