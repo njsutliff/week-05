@@ -127,7 +127,7 @@ public class Controller {
                 if (reservations.size() != 0) {
                     int rId = view.getReservationId();
                     System.out.println("Editing reservation " + rId);
-                    r = view.editReservation(reservations, guest, h);
+                    r = view.editReservation(reservations, guest, h, rId);
                     Result<Reservation> reservationResult = reservationService.editReservation(h, r);
                     if (reservationResult.isSuccess()) {
                         view.displayHeader("Reservation " + rId + " edited successfully");
@@ -176,27 +176,28 @@ public class Controller {
         String guestLastName = "";
         if (guest == null) {
             view.displayStatus(false, "Guest not found");
+            cancelReservation();
         }
         Host h = getHost();//TODO working except for validation of host using hostservice
-        String hId = null;
-        if (h != null) {
-            hId = h.getiD();
-        }
-        Result<Host> hostResult = hostService.getHostFromEmail(hId);
-        if (hostResult.isSuccess()) {
+        if(h == null){
+            view.displayStatus(false, "Host not found");
+        }else {
             Reservation r = new Reservation();
             List<Reservation> reservations = reservationService.getReservationsForGuestAndHost(h, guest);
             r.setHost(h);
-            r.setId(guest.getGuestId());
+            //r.setId(guest.getGuestId());
+            int Id = view.getReservationId();
             r = view.cancel(reservations, guest, h);
             if (reservationService.cancelReservation(h, r)) {
                 System.out.println("Deleted reservation");
             } else {
-                System.out.println("Could not delete reservation");
+                System.out.println("Host has no reservations to cancel. ");
             }
-        } else {
-            hostResult.getErrorMessages().forEach(System.out::println);
         }
+        // }
+        // else {
+        //     hostResult.getErrorMessages().forEach(System.out::println);
+        // }
     }
 
         /*

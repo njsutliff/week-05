@@ -7,8 +7,6 @@ import nik.models.Reservation;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Period;
-import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.function.Predicate;
 
@@ -252,13 +250,14 @@ public class View {
      * Find a reservation.
      * Start and end date can be edited. No other data can be edited.
      * Recalculate the total, display a summary, and ask the user to confirm.
-     *
-     * @param hostReservationsAlreadyExisting list of all reservations to search for
+     *  @param hostReservationsAlreadyExisting list of all reservations to search for
      * @param guest                           guest to find.
+     * @param rId
      */
-    public Reservation editReservation(List<Reservation> hostReservationsAlreadyExisting, Guest guest, Host host) {
+    public Reservation editReservation(List<Reservation> hostReservationsAlreadyExisting, Guest guest, Host host, int rId) {
         List<Reservation> editList = hostReservationsAlreadyExisting.stream()
-                .filter(reservation -> reservation.getGuest().getGuestId().equals(guest.getGuestId())).toList();
+                .filter(reservation -> reservation.getGuest().getGuestId().equals(rId)).toList();
+
         viewReservations(host, editList);
         Reservation r = editList.get(0);
 
@@ -279,7 +278,7 @@ public class View {
        return displayEdit(r);
     }
     public int getReservationId(){
-        return io.readInt("Reservation ID");
+        return io.readInt("Reservation ID ");
     }
     private  Reservation displayEdit( Reservation reservation){
         boolean done = false;

@@ -63,6 +63,9 @@ public class ReservationService {
     }
 
     public boolean cancelReservation(Host h, Reservation r) throws DataException {
+        if(findByHostId(h.getiD()).size()==0){
+            return  false;
+        }
         Result<Reservation> reservationResult = new Result<>();
         validate(h.getiD(), r);
         if (!reservationResult.isSuccess()){
