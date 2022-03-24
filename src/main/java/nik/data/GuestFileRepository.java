@@ -3,18 +3,21 @@ package nik.data;
 import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository
 public class GuestFileRepository implements GuestRepository {
     private final String filePath;
     ReservationFileRepository reservationRepository = new ReservationFileRepository("./data/reservations");
-
-    public GuestFileRepository(String filePath) {
+    @Autowired
+    public GuestFileRepository(@Value("./data/guests.csv") String filePath) {
         this.filePath = filePath;
     }
 

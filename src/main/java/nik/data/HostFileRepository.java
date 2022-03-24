@@ -2,6 +2,10 @@ package nik.data;
 
 import nik.models.Host;
 import nik.models.Reservation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,17 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Repository
+
+
 public class HostFileRepository implements HostRepository {
     ReservationFileRepository repository = new ReservationFileRepository("./data/reservations");
     private final String filePath;
-
-    public HostFileRepository(String filePath) {
+@Autowired
+    public HostFileRepository(@Value("./data/hosts.csv") String filePath) {
         this.filePath = filePath;
     }
-
     /**
      * Gets a list of all Hosts (i.e. in hosts.csv)
-     *
      * @return List of hosts.
      */
     @Override
@@ -52,7 +57,6 @@ public class HostFileRepository implements HostRepository {
                 .orElse(null);
     }
     /**
-     *
      * @param stateAbbrev state to find
      * @return list of hosts with that state
      */
@@ -62,9 +66,7 @@ public class HostFileRepository implements HostRepository {
                 .collect(Collectors.toList());
 
     }
-
     /**
-     *
      * @param email email to get Host from
      * @return Host returned
      */
@@ -81,10 +83,8 @@ public class HostFileRepository implements HostRepository {
                 .findFirst()
                 .orElse(null);
     }
-
     /**
      * Given a host's email, returns that host's Id. used by service->UI->View Reservations
-     *
      * @param email email to get Id from
      * @return Id of host
      */
@@ -94,26 +94,6 @@ public class HostFileRepository implements HostRepository {
                 .findFirst().orElse(null).getiD();
 
     }
-
-    /**
-     * Given a host's email, return the Reservation for that email. Uses ReservationFileRepository
-     *
-     * @param //email host's email
-     * @return Reservation for that email
-     **/
-    /*
-    public Reservation findReservationByEmail(String email) {
-        Reservation res = new Reservation();
-        String iD = getIdFromEmail(email);
-        List<Reservation> reservationList = repository.findByHostId(iD);
-        for (Reservation r : reservationList) {
-            if (r.getId().equals(getIdFromEmail(email))) {
-                res = r;
-            }
-        }
-        return res;
-    }*/
-
     private Host deserialize(String[] fields) {
         //id,last_name,email,phone,address,city,state,postal_code,standard_rate,weekend_rate
 

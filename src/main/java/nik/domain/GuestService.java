@@ -4,10 +4,11 @@ import nik.data.GuestFileRepository;
 import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class GuestService {
     private final GuestFileRepository guestRepository;
 

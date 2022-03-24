@@ -1,16 +1,11 @@
 package nik.domain;
 
 import nik.data.HostFileRepository;
-import nik.data.ReservationFileRepository;
-import nik.models.Guest;
 import nik.models.Host;
-import nik.models.Reservation;
+import org.springframework.stereotype.Service;
 
-import java.sql.PreparedStatement;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+@Service
 public class HostService {
 
     private final HostFileRepository hostRepository;
@@ -21,7 +16,6 @@ public class HostService {
 
     public String getIdFromEmail(String email) {
         return hostRepository.getIdFromEmail(email);
-
     }
 
     public List<Host> getHostsFromState(String stateAbbrev) {

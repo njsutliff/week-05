@@ -3,13 +3,14 @@ package nik.ui;
 import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
-
+@Component
 public class View {
 
     private final ConsoleIO io;

@@ -3,19 +3,23 @@ package nik.data;
 import nik.models.Guest;
 import nik.models.Host;
 import nik.models.Reservation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.*;
-
+@Repository
 
 public class ReservationFileRepository implements ReservationRepository {
     private final String directory;
     private static final String HEADER = "id,start_date,end_date,guest_id,total";
-
-    public ReservationFileRepository(String directory) {
+@Autowired
+    public ReservationFileRepository(@Value("./data/reservations") String directory) {
         this.directory = directory;
     }
 
