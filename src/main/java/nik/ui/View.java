@@ -93,7 +93,6 @@ public class View {
                     host.getStandardRate(),
                     host.getWeekendRate());
         }
-        //h.stream().forEach(System.out::println);
     }
 
     /**
@@ -138,7 +137,9 @@ public class View {
     public void viewReservations(Host h, List<Reservation> r) {
         io.printf("Host:  %s Email: %s %n", h.getLastName(), h.getEmail());
         io.printf("%s %s %n", h.getCity(), h.getState());
-
+        if(r.size()==0){
+            displayStatus(false, "Host has no reservations to show");
+        }
         for (Reservation reservation : r) {
             io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s - Guest name: %s - Total: $%.2f%n",
                     reservation.getId(),
@@ -232,16 +233,19 @@ public class View {
     }
 
     public Reservation cancel(List<Reservation> hostReservation, Guest guest, Host host, int rId) {
+
         List<Reservation> editList = hostReservation.stream()
                 .filter(reservation -> reservation.getId().equals(String.valueOf(rId))).toList();
         viewReservations(host, editList);
-        Reservation r = editList.get(0);
-        io.readRequiredString("Do you want to delete Reservation " + rId);
-        List<Reservation> listToPrint = new ArrayList<>();
-        listToPrint.add(r);
-        printReservations(host, listToPrint);
-        displaySummary(r, r.getTotal());
-        return r;
+        if(editList.size()>0) {
+            Reservation r = editList.get(0);
+            io.readRequiredString("Do you want to delete Reservation " + rId + "[yes]");
+            List<Reservation> listToPrint = new ArrayList<>();
+            listToPrint.add(r);
+            printReservations(host, listToPrint);
+            displaySummary(r, r.getTotal());
+            return r;
+        }else return  null;
     }
 
     /**
@@ -259,21 +263,24 @@ public class View {
 
 
         viewReservations(host, editList);
-        Reservation r = editList.get(0);
-        if (io.readEnter("Enter a new start date")) {
-        displayStatus(true, "Existing date kept");
-        }else {
-        LocalDate newStart = io.readLocalDate("Confirm start date: ", r.startDate);
-            r.setStartDate(newStart);
-        }
-        if (io.readEnter("Enter a new end date")) {
-            displayStatus(true, "Existing date kept");
-        }else {
-        LocalDate newEnd = io.readLocalDate("Confirm end date: ", r.endDate);
-            r.setEndDate(newEnd);
-        }
-        r.setTotal(calculateTotal(host, r));
-        return displayEdit(r);
+        if (editList.size()>0) {
+            Reservation r = editList.get(0);
+
+            if (io.readEnter("Enter a new start date")) {
+                displayStatus(true, "Existing date kept");
+            } else {
+                LocalDate newStart = io.readLocalDate("Confirm start date: ", r.startDate);
+                r.setStartDate(newStart);
+            }
+            if (io.readEnter("Enter a new end date")) {
+                displayStatus(true, "Existing date kept");
+            } else {
+                LocalDate newEnd = io.readLocalDate("Confirm end date: ", r.endDate);
+                r.setEndDate(newEnd);
+            }
+            r.setTotal(calculateTotal(host, r));
+            return displayEdit(r);
+        } else  return  null;
     }
 
     public int getReservationId() {

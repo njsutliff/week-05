@@ -94,19 +94,19 @@ public class ReservationFileRepository implements ReservationRepository {
      * Cancels a Reservation r for Host h
      * @param h Host to cancel reservation for
      * @param r Reservation to cancel
-     * @return new List not including cancelled reservation
+     * @return r
      * @throws DataException
      */
-    public boolean cancelReservation(Host h, Reservation r) throws DataException {
+    public Reservation cancelReservation(Host h, Reservation r) throws DataException {
         List<Reservation> all = findByHostId(h.getiD());
         for (int i = 0; i < all.size(); i++){
             if(all.get(i).getId().equals(r.getId())){
                 all.remove(i);
                 writeAll(all, h.getiD());
-                return true;
+                return r;
             }
         }
-        return false;
+        return r;
     }
 
     /**

@@ -1,4 +1,5 @@
 # week-05
+- [x] Test plan
 - [x] View Reservations for Host
 - [x] Make a reservation
 - [x] Edit a reservation
@@ -24,6 +25,6 @@
 - [x] GuestRepository
 ## Testing
 - [x] Repository
-- [ ] Service layer
+- [x] Service layer
 ## Spring DI
 - [ ]

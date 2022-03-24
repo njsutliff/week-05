@@ -62,17 +62,19 @@ public class ReservationService {
         return result;
     }
 
-    public boolean cancelReservation(Host h, Reservation r) throws DataException {
-        if(findByHostId(h.getiD()).size()==0){
-            return  false;
-        }
-        Result<Reservation> reservationResult = new Result<>();
-        validate(h.getiD(), r);
-        if (!reservationResult.isSuccess()){
-            return false;
+    public Result<Reservation> cancelReservation(Host h, Reservation r, List<Reservation> reservations) throws DataException {
+        Result<Reservation> result = validateCancel(r, reservations);
+        if (!result.isSuccess()){
+            return  result;
         }else {
-            return reservationRepository.cancelReservation(h, r);
+            result.setPayload(reservationRepository.cancelReservation(h, r));
+            return result;
         }
+    }
+
+    private Result<Reservation> validateCancel(Reservation r, List<Reservation> reservations) {
+        Result<Reservation> result = new Result<>();
+        return  result;
     }
 
     public List<Reservation> getReservationsForGuestAndHost(Host h, Guest guest) throws DataException {
@@ -115,9 +117,6 @@ public class ReservationService {
         if (r.getEndDate() == null) {
             result.addErrorMessage("End date is required. ");
         }
-        // if ((r.getGuestId() < 0) || r.getGuestId() >= 1001) {
-        // result.addErrorMessage("Not a current guest. ");
-        //}
         if (r.total == null) {
             result.addErrorMessage("Total amount required. ");
         }
