@@ -138,12 +138,7 @@ public class ReservationService {
         for (Reservation res : reservationsWithId) {
             LocalDate existingStartDate = res.getStartDate();
             LocalDate existingEndDate = res.getEndDate();
-            if (startDate.isEqual(existingStartDate)
-                    || endDate.isEqual(existingEndDate)) {
-                result.addErrorMessage
-                        ("Reservation cannot begin or end on same day,host needs time to checkout");
-                return;
-            }
+
             if (startDate.isBefore(existingStartDate) && endDate.isAfter(existingStartDate)) {
                 result.addErrorMessage("Reservation cannot overlap an existing reservation. ");
                 return;

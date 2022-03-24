@@ -104,11 +104,11 @@ public class View {
      * @param r list of reservations to sort and display
      */
     public void printReservations(Host h, List<Reservation> r) {
-        if (r == null){
+        if (r == null) {
             return;
         }
         if (r.size() == 0) {
-            displayStatus(false,"Host has no reservations!");
+            displayStatus(false, "Host has no reservations!");
         } else {
             r.sort(Comparator.comparing(Reservation::getEndDate).reversed());//TODO sorting error
             io.printf("Host:  %s Email: %s %n", h.getLastName(), h.getEmail());
@@ -120,13 +120,14 @@ public class View {
                         reservation.getStartDate(),
                         reservation.getEndDate(),
                         reservation.getGuest().getGuestId(),
-                        reservation.getGuest().getFirstName()+ " " + reservation.getGuest().getLastName(),
+                        reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName(),
                         reservation.getTotal()
                 );
 
             }
         }
     }
+
     /**
      * Prints reservations, not sorted
      * (as that would be useful to the administrator)
@@ -134,7 +135,7 @@ public class View {
      * @param h host passed in
      * @param r list of reservations to sort and display
      */
-    public  void viewReservations(Host h, List<Reservation> r){
+    public void viewReservations(Host h, List<Reservation> r) {
         io.printf("Host:  %s Email: %s %n", h.getLastName(), h.getEmail());
         io.printf("%s %s %n", h.getCity(), h.getState());
 
@@ -144,7 +145,7 @@ public class View {
                     reservation.getStartDate(),
                     reservation.getEndDate(),
                     reservation.getGuest().getGuestId(),
-                    reservation.getGuest().getFirstName()+ " " + reservation.getGuest().getLastName(),
+                    reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName(),
                     reservation.getTotal()
             );
         }
@@ -229,66 +230,66 @@ public class View {
     private BigDecimal calculateWeekend(Host host, List<LocalDate> weekend) {
         return host.weekendRate.multiply(BigDecimal.valueOf(weekend.size()));
     }
-    public Reservation cancel(List<Reservation> hostReservation, Guest guest, Host host) {
+
+    public Reservation cancel(List<Reservation> hostReservation, Guest guest, Host host, int rId) {
         List<Reservation> editList = hostReservation.stream()
-                .filter(reservation -> reservation.getGuest().getGuestId().equals(guest.getGuestId())).toList();
+                .filter(reservation -> reservation.getId().equals(String.valueOf(rId))).toList();
         viewReservations(host, editList);
-        Reservation r = new Reservation();
-        if(editList.size() > 0) {
-             r = editList.get(0);
-        }if(editList.size()==0){
-            return  r;
-        }
-        io.readRequiredString("Do you want to delete Reservation " + r.getId());
+        Reservation r = editList.get(0);
+        io.readRequiredString("Do you want to delete Reservation " + rId);
         List<Reservation> listToPrint = new ArrayList<>();
         listToPrint.add(r);
         printReservations(host, listToPrint);
         displaySummary(r, r.getTotal());
         return r;
     }
+
     /**
      * Find a reservation.
      * Start and end date can be edited. No other data can be edited.
      * Recalculate the total, display a summary, and ask the user to confirm.
-     *  @param hostReservationsAlreadyExisting list of all reservations to search for
+     *
+     * @param hostReservationsAlreadyExisting list of all reservations to search for
      * @param guest                           guest to find.
      * @param rId
      */
     public Reservation editReservation(List<Reservation> hostReservationsAlreadyExisting, Guest guest, Host host, int rId) {
         List<Reservation> editList = hostReservationsAlreadyExisting.stream()
-                .filter(reservation -> reservation.getGuest().getGuestId().equals(rId)).toList();
+                .filter(reservation -> reservation.getId().equals(String.valueOf(rId))).toList();
+
 
         viewReservations(host, editList);
         Reservation r = editList.get(0);
-
-        LocalDate newStart = io.readLocalDate("Enter a new start date: ", r.startDate);
-        if (newStart.equals(r.getStartDate())){
-        enterToContinue();
-        r.setStartDate(newStart);
+        if (io.readEnter("Enter a new start date")) {
+        displayStatus(true, "Existing date kept");
+        }else {
+        LocalDate newStart = io.readLocalDate("Confirm start date: ", r.startDate);
+            r.setStartDate(newStart);
         }
-        LocalDate newEnd = io.readLocalDate("Enter a new end date: ", r.endDate);
-        if (newEnd.equals(r.getEndDate())){
-            io.readEnter("Enter to keep the previous value");
-            enterToContinue();
+        if (io.readEnter("Enter a new end date")) {
+            displayStatus(true, "Existing date kept");
+        }else {
+        LocalDate newEnd = io.readLocalDate("Confirm end date: ", r.endDate);
             r.setEndDate(newEnd);
-
         }
-        r.setStartDate(newStart);
-        r.setEndDate(newEnd);
-       return displayEdit(r);
+        r.setTotal(calculateTotal(host, r));
+        return displayEdit(r);
     }
-    public int getReservationId(){
-        return io.readInt("Reservation ID ");
+
+    public int getReservationId() {
+        return io.readInt("Enter a reservation ID: ");
     }
-    private  Reservation displayEdit( Reservation reservation){
+
+    private Reservation displayEdit(Reservation reservation) {
         boolean done = false;
         do {
             displayHeader("Summary of details");
-            io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s%n",
+            io.printf("Reservation #: %s Start Date: %s - End Date: %s Guest ID: %s Total: $%.2f%n",
                     reservation.getId(),
                     reservation.getStartDate(),
                     reservation.getEndDate(),
-                    reservation.getGuest().getGuestId()
+                    reservation.getGuest().getGuestId(),
+                    reservation.getTotal()
             );
             if (io.readRequiredString("Enter 'yes' to confirm").equalsIgnoreCase("yes")) {
                 done = true;

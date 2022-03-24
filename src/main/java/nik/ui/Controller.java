@@ -122,12 +122,15 @@ public class Controller {
                 System.out.println("Found host! ");
 
                 Reservation r = new Reservation();
-                List<Reservation> reservations = reservationService.getReservationsForGuestAndHost(h, guest);
-                view.printReservations(h, reservations);
-                if (reservations.size() != 0) {
+                List<Reservation> reservationList = reservationService.findByHostId(h.getiD());
+                List<Reservation> future =
+                        reservationList.stream().filter(reservation -> reservation.getStartDate()
+                                .isAfter(LocalDate.now())).toList();
+                view.viewReservations(h, future);
+                if (future.size() != 0) {
                     int rId = view.getReservationId();
                     System.out.println("Editing reservation " + rId);
-                    r = view.editReservation(reservations, guest, h, rId);
+                    r = view.editReservation(future, guest, h, rId);
                     Result<Reservation> reservationResult = reservationService.editReservation(h, r);
                     if (reservationResult.isSuccess()) {
                         view.displayHeader("Reservation " + rId + " edited successfully");
@@ -179,15 +182,19 @@ public class Controller {
             cancelReservation();
         }
         Host h = getHost();//TODO working except for validation of host using hostservice
-        if(h == null){
+        if (h == null) {
             view.displayStatus(false, "Host not found");
-        }else {
+        } else {
             Reservation r = new Reservation();
             List<Reservation> reservations = reservationService.getReservationsForGuestAndHost(h, guest);
+            if (reservations.size() == 0) {
+                view.displayStatus(false, "host has no reservations!");
+                return;
+            }
             r.setHost(h);
-            //r.setId(guest.getGuestId());
-            int Id = view.getReservationId();
-            r = view.cancel(reservations, guest, h);
+            view.viewReservations(h, reservations);
+            int rId = view.getReservationId();
+            r = view.cancel(reservations, guest, h, rId);
             if (reservationService.cancelReservation(h, r)) {
                 System.out.println("Deleted reservation");
             } else {
