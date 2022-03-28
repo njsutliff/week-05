@@ -1,11 +1,14 @@
 package nik.ui;
 
+
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
-
+@Component
 public class ConsoleIO {
 
     private static final String INVALID_NUMBER
@@ -86,26 +89,33 @@ public class ConsoleIO {
             println(String.format(NUMBER_OUT_OF_RANGE, min, max));
         }
     }
-
-    public boolean readBoolean(String prompt) {
+    public boolean readEnter(String prompt) {
         while (true) {
-            String input = readRequiredString(prompt).toLowerCase();
-            if (input.equals("y")) {
+            String input = readString(prompt);
+            if (input.isBlank()) {
                 return true;
-            } else if (input.equals("n")) {
+            }else if(!input.isBlank()){
                 return false;
             }
-            println("[INVALID] Please enter 'y' or 'n'.");
+            println("[INVALID] please enter 'Enter' to keep value. ");
         }
     }
 
-    public LocalDate readLocalDate(String prompt) {
+
+    public LocalDate readLocalDate(String prompt, LocalDate old) {
         while (true) {
-            String input = readRequiredString(prompt);
             try {
-                return LocalDate.parse(input, formatter);
-            } catch (DateTimeParseException ex) {
-                println(INVALID_DATE);
+                String input = readRequiredString(prompt);
+                if (LocalDate.parse(input, formatter).equals(old)) {
+                    return LocalDate.parse(input, formatter);
+                }
+                try {
+                    return LocalDate.parse(input, formatter);
+                } catch (DateTimeParseException ex) {
+                    println(INVALID_DATE);
+                }
+            } catch (DateTimeParseException e) {
+                println("Invalid date");
             }
         }
     }

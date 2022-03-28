@@ -5,13 +5,27 @@ import java.time.LocalDate;
 
 public class Reservation {
 
-    public  String id;
+    public String id;
     public LocalDate startDate;
     public LocalDate endDate;
-    public int guestId;
     public BigDecimal total;
-    public Guest guest;
-    public Host host;
+    private Host host;
+    private Guest guest;
+
+    public Reservation() {
+    }
+
+    public Reservation(Host host, Guest guest, LocalDate startDate, LocalDate endDate) {
+        this.host = host;
+        this.guest = guest;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public Reservation(Host host, Guest guest) {
+        this.host = host;
+        this.guest = guest;
+    }
 
     public String getId() {
         return id;
@@ -25,16 +39,9 @@ public class Reservation {
         return endDate;
     }
 
-    public int getGuestId() {
-        return guestId;
-    }
 
     public BigDecimal getTotal() {
         return total;
-    }
-
-    public Guest getGuest() {
-        return guest;
     }
 
     public Host getHost() {
@@ -53,24 +60,21 @@ public class Reservation {
         this.endDate = endDate;
     }
 
-    public void setGuestId(int guestId) {
-        this.guestId = guestId;
-    }
-
     public void setTotal(BigDecimal total) {
         this.total = total;
-    }
-
-    public void setGuest(Guest guest) {
-        this.guest = guest;
     }
 
     public void setHost(Host host) {
         this.host = host;
     }
 
-
-    public Reservation(){
-
+    public Guest getGuest() {
+        return guest;
     }
+
+    public void setGuest(Guest guest) {
+        this.guest = guest;
+    }
+
+
 }
